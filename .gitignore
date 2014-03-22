@@ -1,3 +1,4 @@
+# ADT
 .svn
 gen
 bin
@@ -5,5 +6,19 @@ project.properties
 .project
 .settings
 proguard-project.txt
-.DS_Store
 .classpath
+
+# OSX
+.DS_Store
+
+# Gradle
+.gradle
+build
+
+# IDEA
+*.iml
+*.ipr
+*.iws
+out
+.idea
+
