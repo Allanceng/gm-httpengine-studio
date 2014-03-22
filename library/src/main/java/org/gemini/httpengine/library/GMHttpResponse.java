@@ -1,4 +1,4 @@
-package org.gemini.httpengine.library.net;
+package org.gemini.httpengine.library;
 
 import java.io.UnsupportedEncodingException;
 

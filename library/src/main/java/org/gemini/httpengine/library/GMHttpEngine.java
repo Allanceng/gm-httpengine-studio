@@ -1,4 +1,4 @@
-package org.gemini.httpengine.library.net;
+package org.gemini.httpengine.library;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,11 +13,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
-
-import org.gemini.httpengine.library.listener.OnProgressUpdateListener;
-import org.gemini.httpengine.library.util.LOG;
-
-import android.util.Log;
 
 /***
  * Kernel HTTP engine

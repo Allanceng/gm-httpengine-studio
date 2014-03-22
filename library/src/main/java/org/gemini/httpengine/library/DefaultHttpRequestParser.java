@@ -1,4 +1,4 @@
-package org.gemini.httpengine.library.parser;
+package org.gemini.httpengine.library;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +9,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicNameValuePair;
-import org.gemini.httpengine.net.GMHttpParameters;
 
 public class DefaultHttpRequestParser implements HttpRequestParser {
 
@@ -27,8 +26,8 @@ public class DefaultHttpRequestParser implements HttpRequestParser {
 		}
 		HttpEntity entity = new UrlEncodedFormEntity(nvps, "UTF-8");
 		InputStream is = entity.getContent();
-		int avaliable = is.available();
-		byte[] buffer = new byte[avaliable];
+		int available = is.available();
+		byte[] buffer = new byte[available];
 		is.read(buffer);
 		is.close();
 		return buffer;

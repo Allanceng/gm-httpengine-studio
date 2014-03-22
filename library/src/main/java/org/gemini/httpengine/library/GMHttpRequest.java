@@ -1,14 +1,9 @@
-package org.gemini.httpengine.library.net;
+package org.gemini.httpengine.library;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.gemini.httpengine.library.listener.OnProgressUpdateListener;
-import org.gemini.httpengine.library.listener.OnResponseListener;
-import org.gemini.httpengine.library.parser.DefaultHttpRequestParser;
-import org.gemini.httpengine.library.parser.HttpRequestParser;
 
 import android.content.Context;
 

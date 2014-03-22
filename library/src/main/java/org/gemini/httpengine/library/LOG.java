@@ -1,4 +1,4 @@
-package org.gemini.httpengine.library.util;
+package org.gemini.httpengine.library;
 
 import android.util.Log;
 

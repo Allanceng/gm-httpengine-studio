@@ -1,4 +1,4 @@
-package org.gemini.httpengine.library.net;
+package org.gemini.httpengine.library;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +12,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import org.gemini.httpengine.listener.OnResponseListener;
 
 import android.content.Context;
 import android.net.http.HttpResponseCache;
