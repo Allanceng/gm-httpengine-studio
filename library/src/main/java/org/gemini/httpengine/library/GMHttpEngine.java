@@ -44,14 +44,13 @@ public class GMHttpEngine {
         byte[] resultData = null;
         String uri = httpRequest.getUrl();
         String method = httpRequest.getMethod();
-        GMHttpParameters httpParams = httpRequest.getHttpParameters();
         OnProgressUpdateListener progressListener = httpRequest.getOnProgressUpdateListener();
         Map<String, String> headers = httpRequest.getHeaders();
         HttpURLConnection connection = null;
         byte[] httpEntity = null;
         try {
             if (method.equalsIgnoreCase(HTTP_GET)) {
-                uri = uri + encodeUrl(httpParams);
+                uri += "?" + httpRequest.getFormUrlEncodedParameters();
                 URL url = new URL(uri);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod(HTTP_GET);
@@ -79,12 +78,14 @@ public class GMHttpEngine {
             connection.addRequestProperty("User-Agent",
                     "gemini-http-engine v1.5");
 
-            connection.setDoInput(true);
             if (httpEntity != null) {
                 connection.setDoOutput(true);
                 OutputStream httpBodyStream = connection.getOutputStream();
                 httpBodyStream.write(httpEntity);
+                httpBodyStream.flush();
+                httpBodyStream.close();
             }
+            connection.setDoInput(true);
             connection.setConnectTimeout(CONNECTION_TIME_OUT);
             connection.setReadTimeout(READ_TIME_OUT);
             connection.connect();
@@ -131,33 +132,6 @@ public class GMHttpEngine {
         byte[] ret = buffer.toByteArray();
         buffer.reset();
         return ret;
-    }
-
-    private String encodeUrl(GMHttpParameters parameters)
-            throws UnsupportedEncodingException {
-        if (parameters == null) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        boolean first = true;
-        Set<String> keySet = parameters.getNames();
-        for (Iterator<String> ite = keySet.iterator(); ite.hasNext(); ) {
-            String key = ite.next();
-            String value = parameters.getParameter(key);
-            if (value == null) {
-                LOG.w("encodeUrl", "key:" + key + " 's value is null");
-            } else {
-                if (first) {
-                    sb.append("?");
-                    first = false;
-                } else {
-                    sb.append("&");
-                }
-                sb.append(URLEncoder.encode(key, "utf-8") + "="
-                        + URLEncoder.encode(value, "utf-8"));
-            }
-        }
-        return sb.toString();
     }
 
 }

@@ -1,12 +1,12 @@
 package org.gemini.httpengine.test;
 
 import org.gemini.httpengine.library.HTTPParameter;
-import org.gemini.httpengine.library.Model;
+import org.gemini.httpengine.library.RequestModel;
 
 /**
  * Created by geminiwen on 14-3-22.
  */
-public class TestModel extends Model{
+public class TestModel extends RequestModel {
 
     @HTTPParameter(name="name")
     private String message;

@@ -16,7 +16,10 @@ public class GMHttpRequest {
     private String taskId;
     private String method;
     private Boolean isCanceled;
+
     private GMHttpParameters httpParameters;
+
+    private RequestModel httpRequestModel;
     private Map<String, Object> userData;
     private Map<String, String> headers;
     private WeakReference<OnResponseListener> onResponseListener;
@@ -30,8 +33,7 @@ public class GMHttpRequest {
         this.method = GMHttpEngine.HTTP_GET;
     }
 
-    public GMHttpRequest(String url,
-                         GMHttpParameters httpParameters) {
+    public GMHttpRequest(String url, GMHttpParameters httpParameters) {
         this.url = url;
         this.httpParameters = httpParameters;
     }
@@ -60,12 +62,14 @@ public class GMHttpRequest {
         this.taskId = taskId;
     }
 
-    public GMHttpParameters getHttpParameters() {
-        return httpParameters;
-    }
-
+    @Deprecated
     public void setHttpParameters(GMHttpParameters httpParameters) {
         this.httpParameters = httpParameters;
+    }
+
+    @Deprecated
+    public GMHttpParameters getHttpParameters() {
+        return httpParameters;
     }
 
     public String getMethod() {
@@ -85,16 +89,14 @@ public class GMHttpRequest {
     }
 
     public void setOnResponseListener(OnResponseListener responseListener) {
-        this.onResponseListener = new WeakReference<OnResponseListener>(
-                responseListener);
+        this.onResponseListener = new WeakReference<OnResponseListener>(responseListener);
     }
 
     public OnProgressUpdateListener getOnProgressUpdateListener() {
         return onProgressUpdateListener;
     }
 
-    public void setOnProgressUpdateListener(
-            OnProgressUpdateListener onProgressUpdateListener) {
+    public void setOnProgressUpdateListener(OnProgressUpdateListener onProgressUpdateListener) {
         this.onProgressUpdateListener = onProgressUpdateListener;
     }
 
@@ -107,7 +109,24 @@ public class GMHttpRequest {
     }
 
     public byte[] getHttpEntity() throws IOException {
-        return this.requestParser.parse(httpParameters);
+        byte[] data = null;
+        if( null == this.httpRequestModel ) {
+            data = this.requestParser.parse(httpParameters);
+        } else {
+            data = this.requestParser.parse(httpRequestModel);
+        }
+        return data;
+    }
+
+    public String getFormUrlEncodedParameters() throws IOException{
+        FormUrlEncodedParser parser = new FormUrlEncodedParser();
+        byte[] data = null;
+        if( null == this.httpRequestModel ) {
+            data = parser.parse(httpParameters);
+        } else {
+            data = parser.parse(httpRequestModel);
+        }
+        return new String(data);
     }
 
     public void addHeader(String key, String value) {
@@ -124,6 +143,10 @@ public class GMHttpRequest {
 
     public Boolean isCancel() {
         return this.isCanceled;
+    }
+
+    public void setHttpParameters(RequestModel requestModel) {
+        this.httpRequestModel = requestModel;
     }
 
 }

@@ -20,17 +20,16 @@ public class TestRequestParser extends InstrumentationTestCase{
         String data = null;
         byte[] result = null;
 
-        parameters = new GMHttpParameters();
-        parameters.setRequestModel(model);
         GMHttpRequest request = new GMHttpRequest();
+        request.setHttpParameters(model);
 
         model.setMessage("thisisamessage");
-        result = request.getRequestParser().parse(parameters);
+        result = request.getHttpEntity();
         data = new String(result);
         assertEquals(data,"name=thisisamessage&sex=false");
 
         model.setMessage(null);
-        result = request.getRequestParser().parse(parameters);
+        result = request.getHttpEntity();
         data = new String(result);
         assertEquals(data,"sex=false");
 

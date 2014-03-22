@@ -20,17 +20,6 @@ public class FormUrlEncodedParser implements HttpRequestParser {
 	 */
 	@Override
 	public byte[] parse(GMHttpParameters httpParameters) throws IOException {
-        Model reqModel = httpParameters.getRequestModel();
-        byte[] data = null;
-        if(reqModel != null ) {
-            data = parseModel(reqModel);
-        } else {
-            data = parseMap(httpParameters);
-        }
-        return data;
-	}
-
-    private byte[] parseMap(GMHttpParameters httpParameters) throws IOException{
         Set<String> keySet = httpParameters.getNames();
         ArrayList<NameValuePair> nvps = new ArrayList<NameValuePair>();
         for (String name : keySet) {
@@ -45,11 +34,12 @@ public class FormUrlEncodedParser implements HttpRequestParser {
         is.read(buffer);
         is.close();
         return buffer;
-    }
+	}
 
-    private byte[] parseModel(Model model) throws IOException{
+    @Override
+    public byte[] parse(RequestModel httpParamsModel) throws IOException {
         byte[] result = null;
-        Field[] fields = model.getClass().getDeclaredFields();
+        Field[] fields = httpParamsModel.getClass().getDeclaredFields();
         ArrayList<NameValuePair> nvps = new ArrayList<NameValuePair>();
         for (Field field : fields) {
 
@@ -70,18 +60,18 @@ public class FormUrlEncodedParser implements HttpRequestParser {
                     }
                     getterBuilder.append(fieldName);
                     getterMethodName = getterBuilder.toString();
-                    getterMethod = model.getClass().getMethod(getterMethodName);
+                    getterMethod = httpParamsModel.getClass().getMethod(getterMethodName);
 
-                    Object value = getterMethod.invoke(model);
+                    Object value = getterMethod.invoke(httpParamsModel);
                     if( value != null ) {
                         p = new BasicNameValuePair(parameterName, value.toString());
                     }
 
                 } catch (NoSuchMethodException e) {
-                    String value = getValueByField(field,model);
+                    String value = getValueByField(field, httpParamsModel);
                     p = new BasicNameValuePair(parameterName, value);
                 } catch (IllegalAccessException e) {
-                    String value = getValueByField(field,model);
+                    String value = getValueByField(field, httpParamsModel);
                     p = new BasicNameValuePair(parameterName, value);
                 } catch (InvocationTargetException e) {
                     // Never in this block
@@ -106,7 +96,7 @@ public class FormUrlEncodedParser implements HttpRequestParser {
         return newStr;
     }
 
-    private String getValueByField(Field field,Model model) {
+    private String getValueByField(Field field,RequestModel model) {
         Object value = null;
         try {
             boolean accessible = field.isAccessible();
