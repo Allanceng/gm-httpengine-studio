@@ -43,7 +43,7 @@ public class GMHttpEngine {
 	 */
 	public byte[] openUrl(GMHttpRequest httpRequest) {
 		byte[] resultData = null;
-		String uri = httpRequest.getUri();
+		String uri = httpRequest.getUrl();
 		String method = httpRequest.getMethod();
 		GMHttpParameters httpParams = httpRequest.getHttpParameters();
 		OnProgressUpdateListener progressListener =  httpRequest.getOnProgressUpdateListener();
@@ -78,7 +78,7 @@ public class GMHttpEngine {
 					"gzip,deflate,sdch");
 			connection.addRequestProperty("Connection", "keep-alive");
 			connection.addRequestProperty("User-Agent",
-					"gemini-http-engine v1.2");
+					"gemini-http-engine v1.5");
 
 			connection.setDoInput(true);
 			if (httpEntity != null) {
@@ -144,9 +144,9 @@ public class GMHttpEngine {
 		Set<String> keySet = parameters.getNames();
 		for (Iterator<String> ite = keySet.iterator(); ite.hasNext();) {
 			String key = ite.next();
-			String value = parameters.getStringParameter(key);
+			String value = parameters.getParameter(key);
 			if (value == null) {
-				LOG.i("encodeUrl", "key:" + key + " 's value is null");
+				LOG.w("encodeUrl", "key:" + key + " 's value is null");
 			} else {
 				if (first) {
 					sb.append("?");

@@ -9,142 +9,130 @@ import android.content.Context;
 
 /**
  * Request Object for http engine
- * 
+ *
  * @author Gemini
- * 
  */
 public class GMHttpRequest {
-	public static final Long REQUEST_ID_UNIQUE = 0xFFFFFFFFl;
 
-	private final Context context;
-	private String uri;
-	private Map<String, Object> userData;
-	private final Map<String, String> headers;
-	private String taskId;
-	private GMHttpParameters httpParameters;
-	private Boolean isRawData;
-	private String method;
-	private WeakReference<OnResponseListener> onResponseListener;
-	private OnProgressUpdateListener onProgressUpdateListener;
-	private HttpRequestParser requestParser;
-	private Boolean isCanceled;
+    private Context context;
+    private String url;
+    private Map<String, Object> userData;
+    private Map<String, String> headers;
+    private String taskId;
+    private GMHttpParameters httpParameters;
+    private String method;
+    private WeakReference<OnResponseListener> onResponseListener;
+    private OnProgressUpdateListener onProgressUpdateListener;
+    private HttpRequestParser requestParser;
+    private Boolean isCanceled;
 
-	public GMHttpRequest(Context context) {
-		this.context = context;
-		this.isRawData = false;
-		this.isCanceled = false;
-		this.requestParser = new DefaultHttpRequestParser();
-		this.headers = new HashMap<String, String>();
-		this.method = GMHttpEngine.HTTP_GET;
-	}
+    public GMHttpRequest(Context context) {
+        this.context = context;
+        this.isCanceled = false;
+        this.requestParser = new DefaultHttpRequestParser();
+        this.headers = new HashMap<String, String>();
+        this.method = GMHttpEngine.HTTP_GET;
+    }
 
-	public GMHttpRequest(Context context, String uri,
-			GMHttpParameters httpParameters) {
-		this(context);
-		this.uri = uri;
-		this.httpParameters = httpParameters;
-	}
+    public GMHttpRequest(Context context, String url,
+                         GMHttpParameters httpParameters) {
+        this(context);
+        this.url = url;
+        this.httpParameters = httpParameters;
+    }
 
-	public String getUri() {
-		return uri;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public void setUri(String uri) {
-		this.uri = uri;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public Map<String, Object> getUserData() {
-		return userData;
-	}
+    public Map<String, Object> getUserData() {
+        return userData;
+    }
 
-	public void setUserData(Map<String, Object> userData) {
-		this.userData = userData;
-	}
+    public void setUserData(Map<String, Object> userData) {
+        this.userData = userData;
+    }
 
-	public String getTaskId() {
-		return taskId;
-	}
+    public String getTaskId() {
+        return taskId;
+    }
 
-	public void setTaskId(String taskId) {
-		this.taskId = taskId;
-	}
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
 
-	public GMHttpParameters getHttpParameters() {
-		return httpParameters;
-	}
+    public GMHttpParameters getHttpParameters() {
+        return httpParameters;
+    }
 
-	public void setHttpParameters(GMHttpParameters httpParameters) {
-		this.httpParameters = httpParameters;
-	}
+    public void setHttpParameters(GMHttpParameters httpParameters) {
+        this.httpParameters = httpParameters;
+    }
 
-	public Boolean getIsRawData() {
-		return isRawData;
-	}
+    public String getMethod() {
+        return method;
+    }
 
-	public String getMethod() {
-		return method;
-	}
+    public void setMethod(String method) {
+        this.method = method;
+    }
 
-	public void setMethod(String method) {
-		this.method = method;
-	}
+    public String getContentType() {
+        return this.requestParser.pareContentType();
+    }
 
-	public String getContentType() {
-		return this.requestParser.pareContentType();
-	}
+    public Context getContext() {
+        return context;
+    }
 
-	public void setIsRawData(Boolean isRawData) {
-		this.isRawData = isRawData;
-	}
+    public OnResponseListener getResponseListener() {
+        return onResponseListener.get();
+    }
 
-	public Context getContext() {
-		return context;
-	}
+    public void setOnResponseListener(OnResponseListener responseListener) {
+        this.onResponseListener = new WeakReference<OnResponseListener>(
+                responseListener);
+    }
 
-	public OnResponseListener getResponseListener() {
-		return onResponseListener.get();
-	}
+    public OnProgressUpdateListener getOnProgressUpdateListener() {
+        return onProgressUpdateListener;
+    }
 
-	public void setOnResponseListener(OnResponseListener responseListener) {
-		this.onResponseListener = new WeakReference<OnResponseListener>(
-				responseListener);
-	}
+    public void setOnProgressUpdateListener(
+            OnProgressUpdateListener onProgressUpdateListener) {
+        this.onProgressUpdateListener = onProgressUpdateListener;
+    }
 
-	public OnProgressUpdateListener getOnProgressUpdateListener() {
-		return onProgressUpdateListener;
-	}
+    public HttpRequestParser getRequestParser() {
+        return requestParser;
+    }
 
-	public void setOnProgressUpdateListener(
-			OnProgressUpdateListener onProgressUpdateListener) {
-		this.onProgressUpdateListener = onProgressUpdateListener;
-	}
+    public void setRequestParser(HttpRequestParser requestParser) {
+        this.requestParser = requestParser;
+    }
 
-	public HttpRequestParser getRequestParser() {
-		return requestParser;
-	}
+    public byte[] getHttpEntity() throws IOException {
+        return this.requestParser.parse(httpParameters);
+    }
 
-	public void setRequestParser(HttpRequestParser requestParser) {
-		this.requestParser = requestParser;
-	}
+    public void addHeader(String key, String value) {
+        this.headers.put(key, value);
+    }
 
-	public byte[] getHttpEntity() throws IOException {
-		return this.requestParser.parse(httpParameters);
-	}
+    public Map<String, String> getHeaders() {
+        return this.headers;
+    }
 
-	public void addHeader(String key, String value) {
-		this.headers.put(key, value);
-	}
+    public void cancel() {
+        this.isCanceled = true;
+    }
 
-	public Map<String, String> getHeaders() {
-		return this.headers;
-	}
-
-	public void cancel() {
-		this.isCanceled = true;
-	}
-
-	public Boolean isCancel() {
-		return this.isCanceled;
-	}
+    public Boolean isCancel() {
+        return this.isCanceled;
+    }
 
 }
