@@ -20,7 +20,7 @@ public class DefaultHttpRequestParser implements HttpRequestParser {
 		Set<String> keySet = httpParams.getNames();
 		ArrayList<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		for (String name : keySet) {
-			String value = httpParams.getStringParameter(name);
+			String value = httpParams.getParameter(name);
 			NameValuePair p = new BasicNameValuePair(name, value);
 			nvps.add(p);
 		}

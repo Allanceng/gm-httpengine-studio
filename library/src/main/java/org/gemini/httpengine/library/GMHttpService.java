@@ -39,10 +39,10 @@ public class GMHttpService {
 			10);
 
 	public static final String TAG = "GMHttpService";
-	public static final String VERSION = "1.2";
+	public static final String VERSION = "1.5";
 
-	private static GMHttpService sInstance;
-	private final WeakHashMap<Context, List<GMHttpRequest>> requestMap;
+    private static GMHttpService sInstance;
+    private WeakHashMap<Context, List<GMHttpRequest>> requestMap;
 
 	/***
 	 * per thread has a {@link GMHttpEngine}
@@ -106,8 +106,8 @@ public class GMHttpService {
 		return sInstance;
 	}
 
-	public static synchronized void makeInstance() {
-		sInstance = new GMHttpService();
+	private static synchronized void makeInstance() {
+        sInstance = new GMHttpService();
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class GMHttpService {
 
 	private class HttpRunnable implements Runnable, ResponseUpdater {
 
-		private final GMHttpRequest mHttpRequest;
+		private GMHttpRequest mHttpRequest;
 		private GMHttpResponse mHttpResponse;
 
 		public HttpRunnable(GMHttpRequest httpRequest) {
@@ -198,7 +198,8 @@ public class GMHttpService {
 	 *            the request to cancel
 	 */
 	public void cancelRequest(GMHttpRequest httpRequest) {
-		cancelRequest(httpRequest.getContext());
+		//@TODO: to be continue;
+        cancelRequest(httpRequest.getContext());
 	}
 
 	public void cancelRequest(Context context) {
