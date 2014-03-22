@@ -14,29 +14,26 @@ import android.content.Context;
  */
 public class GMHttpRequest {
 
-    private Context context;
     private String url;
+    private String taskId;
+    private String method;
+    private Boolean isCanceled;
+    private GMHttpParameters httpParameters;
     private Map<String, Object> userData;
     private Map<String, String> headers;
-    private String taskId;
-    private GMHttpParameters httpParameters;
-    private String method;
     private WeakReference<OnResponseListener> onResponseListener;
     private OnProgressUpdateListener onProgressUpdateListener;
     private HttpRequestParser requestParser;
-    private Boolean isCanceled;
 
-    public GMHttpRequest(Context context) {
-        this.context = context;
+    public GMHttpRequest() {
         this.isCanceled = false;
         this.requestParser = new DefaultHttpRequestParser();
         this.headers = new HashMap<String, String>();
         this.method = GMHttpEngine.HTTP_GET;
     }
 
-    public GMHttpRequest(Context context, String url,
+    public GMHttpRequest(String url,
                          GMHttpParameters httpParameters) {
-        this(context);
         this.url = url;
         this.httpParameters = httpParameters;
     }
@@ -83,10 +80,6 @@ public class GMHttpRequest {
 
     public String getContentType() {
         return this.requestParser.pareContentType();
-    }
-
-    public Context getContext() {
-        return context;
     }
 
     public OnResponseListener getResponseListener() {

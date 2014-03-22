@@ -42,7 +42,6 @@ public class GMHttpService {
 	public static final String VERSION = "1.5";
 
     private static GMHttpService sInstance;
-    private WeakHashMap<Context, List<GMHttpRequest>> requestMap;
 
 	/***
 	 * per thread has a {@link GMHttpEngine}
@@ -76,7 +75,6 @@ public class GMHttpService {
 		mService = new ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE,
 				KEEP_ALIVE, TimeUnit.SECONDS, sPoolWorkQueue, sThreadFactory);// Executors.newCachedThreadPool();
 		mResponseCallBack = new ResponseDataCallback();
-		requestMap = new WeakHashMap<Context, List<GMHttpRequest>>();
 
 		mHandlerThread = new HandlerThread(TAG + "-HandlerThread");
 		mHandlerThread.start();
@@ -141,7 +139,6 @@ public class GMHttpService {
 		@Override
 		public void run() {
 			if (mHttpRequest.isCancel()) {
-				requestMap.remove(mHttpRequest.getContext());
 				return;
 			}
 			GMHttpEngine httpEngine = sHttpEnginePool.get();
@@ -160,7 +157,6 @@ public class GMHttpService {
 
 		@Override
 		public void updateResponse() {
-			requestMap.remove(mHttpRequest.getContext());
 			if (mHttpRequest.isCancel()) {
 				return;
 			}
@@ -179,15 +175,7 @@ public class GMHttpService {
 	 */
 	public void executeHttpMethod(GMHttpRequest httpRequest) {
 		Runnable runnable = new HttpRunnable(httpRequest);
-		List<GMHttpRequest> httpRequestList = requestMap.get(httpRequest
-				.getContext());
-		if (null == httpRequestList) {
-			httpRequestList = new ArrayList<GMHttpRequest>();
-			httpRequestList.add(httpRequest);
-			requestMap.put(httpRequest.getContext(), httpRequestList);
-		} else {
-			httpRequestList.add(httpRequest);
-		}
+
 		mService.execute(runnable);
 	}
 
@@ -199,17 +187,7 @@ public class GMHttpService {
 	 */
 	public void cancelRequest(GMHttpRequest httpRequest) {
 		//@TODO: to be continue;
-        cancelRequest(httpRequest.getContext());
-	}
-
-	public void cancelRequest(Context context) {
-		List<GMHttpRequest> requestList = requestMap.remove(context);
-		if (null != requestList) {
-			for (GMHttpRequest request : requestList) {
-				request.cancel();
-			}
-		}
-
+        httpRequest.cancel();
 	}
 
 }
