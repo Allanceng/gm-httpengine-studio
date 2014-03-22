@@ -186,7 +186,7 @@ public class GMHttpService {
 	 *            the request to cancel
 	 */
 	public void cancelRequest(GMHttpRequest httpRequest) {
-		//@TODO: to be continue;
+		//@TODO: to be completed;
         httpRequest.cancel();
 	}
 

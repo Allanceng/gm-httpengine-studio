@@ -35,7 +35,7 @@ public class GMHttpResponse {
 	}
 
 	public HttpResponseParser getResponseParser() {
-		return responseParser;
+        return responseParser;
 	}
 
 	public void setResponseParser(HttpResponseParser responseParser) {
@@ -43,7 +43,7 @@ public class GMHttpResponse {
 	}
 
 	public String parseAsString() {
-		return parseAsString("UTF-8");
+        return parseAsString("UTF-8");
 	}
 
 	public String parseAsString(String encode) {
@@ -55,7 +55,7 @@ public class GMHttpResponse {
 			ret = new String(this.rawData, encode);
 		} catch (UnsupportedEncodingException e) {
 			isFail = true;
-			throw new RuntimeException("Request is failed");
+			throw new RuntimeException("Unsupport encoding " + e.getMessage());
 		}
 		return ret;
 	}
@@ -66,7 +66,6 @@ public class GMHttpResponse {
 		try {
 			obj = new JSONObject(result);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return obj;

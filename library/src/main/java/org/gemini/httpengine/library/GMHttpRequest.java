@@ -5,8 +5,6 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.content.Context;
-
 /**
  * Request Object for http engine
  *
@@ -27,7 +25,7 @@ public class GMHttpRequest {
 
     public GMHttpRequest() {
         this.isCanceled = false;
-        this.requestParser = new DefaultHttpRequestParser();
+        this.requestParser = new FormUrlEncodedParser();
         this.headers = new HashMap<String, String>();
         this.method = GMHttpEngine.HTTP_GET;
     }

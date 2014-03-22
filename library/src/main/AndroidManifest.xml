@@ -1,9 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.gemini.httpengine.library"
-    android:versionCode="1"
-    android:versionName="1.5">
-
-    <application android:allowBackup="true">
-    </application>
+    package="org.gemini.httpengine.library">
+    <application />
 
 </manifest>

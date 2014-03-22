@@ -4,7 +4,8 @@ import java.util.Set;
 import java.util.TreeMap;
 
 public class GMHttpParameters {
-	private final TreeMap<String, String> httpParams;
+	private TreeMap<String, String> httpParams;
+    private Model requestModel;
 
 	public GMHttpParameters() {
         httpParams = new TreeMap<String, String>();
@@ -14,12 +15,7 @@ public class GMHttpParameters {
 		this.httpParams = new TreeMap<String, String>(other.httpParams);
 	}
 
-	public int size() {
-        return httpParams.size();
-	}
-
 	public String getParameter(String name) {
-
         return httpParams.get(name);
 	}
 
@@ -31,6 +27,14 @@ public class GMHttpParameters {
 	public Set<String> getNames() {
         return httpParams.keySet();
 	}
+
+    public void setRequestModel(Model req) {
+        this.requestModel = req;
+    }
+
+    public Model getRequestModel() {
+        return this.requestModel;
+    }
 
 	@Override
 	public String toString() {
