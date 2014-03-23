@@ -4,14 +4,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -108,8 +104,7 @@ public class GMHttpEngine {
     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
     byte[] bufferData = new byte[1024];
 
-    private byte[] readHttpResponseAsByte(InputStream is, int length,
-                                          OnProgressUpdateListener l) {
+    private byte[] readHttpResponseAsByte(InputStream is, int length, OnProgressUpdateListener l) {
         try {
             int nRead;
             int nHasRead = 0;
