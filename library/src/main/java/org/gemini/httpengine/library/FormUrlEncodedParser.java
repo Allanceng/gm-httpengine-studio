@@ -104,7 +104,7 @@ public class FormUrlEncodedParser implements HttpRequestParser {
             value = field.get(model);
             field.setAccessible(accessible);
         } catch (IllegalAccessException ex) {
-            // Never in this block
+            // Never enter this block
         }
         return value.toString();
     }

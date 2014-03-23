@@ -38,7 +38,18 @@ public class GMHttpRequest {
         this.httpParameters = httpParameters;
     }
 
-    public String getUrl() {
+    public String getUrl() throws IOException {
+        String url = this.url;
+        if (method.equalsIgnoreCase(GMHttpEngine.HTTP_GET)) {
+            FormUrlEncodedParser parser = new FormUrlEncodedParser();
+            byte[] data = null;
+            if (null == this.httpRequestModel) {
+                data = parser.parse(httpParameters);
+            } else {
+                data = parser.parse(httpRequestModel);
+            }
+            url += "?" + new String(data);
+        }
         return url;
     }
 
@@ -110,7 +121,7 @@ public class GMHttpRequest {
 
     public byte[] getHttpEntity() throws IOException {
         byte[] data = null;
-        if( null == this.httpRequestModel ) {
+        if (null == this.httpRequestModel) {
             data = this.requestParser.parse(httpParameters);
         } else {
             data = this.requestParser.parse(httpRequestModel);
@@ -118,16 +129,6 @@ public class GMHttpRequest {
         return data;
     }
 
-    public String getFormUrlEncodedParameters() throws IOException{
-        FormUrlEncodedParser parser = new FormUrlEncodedParser();
-        byte[] data = null;
-        if( null == this.httpRequestModel ) {
-            data = parser.parse(httpParameters);
-        } else {
-            data = parser.parse(httpRequestModel);
-        }
-        return new String(data);
-    }
 
     public void addHeader(String key, String value) {
         this.headers.put(key, value);

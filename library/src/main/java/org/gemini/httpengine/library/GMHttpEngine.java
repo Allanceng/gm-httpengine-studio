@@ -42,22 +42,17 @@ public class GMHttpEngine {
      */
     public byte[] openUrl(GMHttpRequest httpRequest) {
         byte[] resultData = null;
-        String uri = httpRequest.getUrl();
         String method = httpRequest.getMethod();
         OnProgressUpdateListener progressListener = httpRequest.getOnProgressUpdateListener();
         Map<String, String> headers = httpRequest.getHeaders();
         HttpURLConnection connection = null;
         byte[] httpEntity = null;
         try {
-            if (method.equalsIgnoreCase(HTTP_GET)) {
-                uri += "?" + httpRequest.getFormUrlEncodedParameters();
-                URL url = new URL(uri);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod(HTTP_GET);
-            } else if (method.equalsIgnoreCase(HTTP_POST)) {
-                URL url = new URL(uri);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod(HTTP_POST);
+            String uri = httpRequest.getUrl();
+            URL url = new URL(uri);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod(method);
+            if (method.equalsIgnoreCase(HTTP_POST)) {
                 String contentType = httpRequest.getContentType();
                 connection.addRequestProperty("Content-Type", contentType);
                 httpEntity = httpRequest.getHttpEntity();
@@ -76,7 +71,7 @@ public class GMHttpEngine {
                     "gzip,deflate,sdch");
             connection.addRequestProperty("Connection", "keep-alive");
             connection.addRequestProperty("User-Agent",
-                    "gemini-http-engine v1.5");
+                    "gemini-http-engine v" + Config.VERSION_NAME);
 
             if (httpEntity != null) {
                 connection.setDoOutput(true);

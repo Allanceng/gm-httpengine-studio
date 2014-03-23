@@ -1,5 +1,7 @@
 package org.gemini.httpengine.test;
 
+import android.content.UriMatcher;
+import android.net.Uri;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
