@@ -1,7 +1,9 @@
-# GMHttpEngine for Android Studio
+# GMHttpEngine
 
-Project for Android Studio
+Build On Android Studio with Gradle
 
-Build on Gradle.
+Support for Sonatype in ZjSeek
 
-Have Fun~
+A Simple Http Engine
+
+see example for more details
