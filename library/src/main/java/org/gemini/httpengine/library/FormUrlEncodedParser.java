@@ -20,6 +20,9 @@ public class FormUrlEncodedParser implements HttpRequestParser {
 	 */
 	@Override
 	public byte[] parse(GMHttpParameters httpParameters) throws IOException {
+        if(httpParameters == null) {
+            return null;
+        }
         Set<String> keySet = httpParameters.getNames();
         ArrayList<NameValuePair> nvps = new ArrayList<NameValuePair>();
         for (String name : keySet) {

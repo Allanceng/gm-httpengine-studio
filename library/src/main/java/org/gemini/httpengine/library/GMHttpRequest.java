@@ -48,7 +48,10 @@ public class GMHttpRequest {
             } else {
                 data = parser.parse(httpRequestModel);
             }
-            url += "?" + new String(data);
+            if(null != data) {
+                url += "?" + new String(data);
+            }
+
         }
         return url;
     }

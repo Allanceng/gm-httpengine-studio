@@ -35,19 +35,6 @@ public class GMHttpService {
 
 	private final Handler.Callback mResponseCallBack;
 
-	public static void enableCache(Context context) throws IOException {
-		File httpCacheDir = new File(context.getCacheDir(), "http");
-		long httpCacheSize = 10 * 1024 * 1024; // 10 MB
-		HttpResponseCache.install(httpCacheDir, httpCacheSize);
-	}
-
-	public static void flushCache() {
-		HttpResponseCache cache = HttpResponseCache.getInstalled();
-		if (cache != null) {
-			cache.flush();
-		}
-	}
-
 	/**
 	 * default thread that handler run on
 	 */

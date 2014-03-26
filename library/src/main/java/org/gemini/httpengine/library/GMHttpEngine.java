@@ -23,7 +23,7 @@ public class GMHttpEngine {
     public static final String HTTP_PUT = "PUT";
     public static final String HTTP_DELETE = "DELETE";
 
-    public static int CONNECTION_TIME_OUT = 5000;
+    public static int CONNECTION_TIME_OUT = 30000;
     public static int READ_TIME_OUT = 30000;
 
     public GMHttpEngine() {
@@ -63,11 +63,9 @@ public class GMHttpEngine {
                 }
             }
 
-            connection.addRequestProperty("Accept-Encoding",
-                    "gzip,deflate,sdch");
+            connection.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
             connection.addRequestProperty("Connection", "keep-alive");
-            connection.addRequestProperty("User-Agent",
-                    "gemini-http-engine v" + Config.VERSION_NAME);
+            connection.addRequestProperty("User-Agent", "gm-httpengine v"+Config.VERSION_NAME);
 
             if (httpEntity != null) {
                 connection.setDoOutput(true);
@@ -77,6 +75,7 @@ public class GMHttpEngine {
                 httpBodyStream.close();
             }
             connection.setDoInput(true);
+            connection.setChunkedStreamingMode(0);
             connection.setConnectTimeout(CONNECTION_TIME_OUT);
             connection.setReadTimeout(READ_TIME_OUT);
             connection.connect();
@@ -89,9 +88,8 @@ public class GMHttpEngine {
                 responseStream = new GZIPInputStream(responseStream);
             }
 
-            resultData = readHttpResponseAsByte(responseStream, length,
-                    progressListener);
-
+            resultData = readHttpResponseAsByte(responseStream, length, progressListener);
+            responseStream.close();
         } catch (IOException e) {
             LOG.w(TAG, e.getClass().getSimpleName(), e);
         } finally {
@@ -102,7 +100,7 @@ public class GMHttpEngine {
     }
 
     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-    byte[] bufferData = new byte[1024];
+    byte[] bufferData = new byte[4096];
 
     private byte[] readHttpResponseAsByte(InputStream is, int length, OnProgressUpdateListener l) {
         try {

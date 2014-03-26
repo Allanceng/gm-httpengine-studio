@@ -16,7 +16,32 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java {
+                srcDir 'src/main/java'
+            }
+            resources {
+                srcDir 'src/main/res'
+            }
+        }
+    }
 }
+
+task clearJar(type: Delete) {
+    delete 'build/libs/'+project.name+'.jar'
+}
+
+task makeJar(type: Copy) {
+    from('build/bundles/release/')
+    into('build/libs/')
+    include('classes.jar')
+    rename ('classes.jar', 'GMHttpEngine.jar')
+}
+
+makeJar.dependsOn(clearJar, build)
 
 dependencies {
     compile 'com.android.support:appcompat-v7:+'
@@ -26,5 +51,10 @@ dependencies {
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+            url "http://maven.zjseek.com.cn/content/repositories/central/"
+        }
     }
 }
+
+apply from: "../maven_push.gradle"

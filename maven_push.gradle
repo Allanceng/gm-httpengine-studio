@@ -1,0 +1,66 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+configurations {
+    archives {
+        extendsFrom configurations.default
+    }
+}
+
+
+afterEvaluate { project ->
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                pom.artifactId = POM_ARTIFACT_ID
+
+                repository(url: "http://maven.zjseek.com.cn/content/repositories/snapshots") {
+                    authentication(userName: "admin", password: "seekadmin")
+                }
+
+                pom.project {
+                    name POM_NAME
+                    packaging POM_PACKAGING
+                    description POM_DESCRIPTION
+
+                    licenses {
+                        license {
+                            name POM_LICENCE_NAME
+                            distribution POM_LICENCE_DIST
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id "gemini"
+                            name "Gemini Wen"
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    signing {
+        required { gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
+    }
+
+//    task androidJavadocsJar(type: Jar, dependsOn: generateReleaseJavadoc) {
+//        classifier = 'javadoc'
+//        from generateReleaseJavadoc.destinationDir
+//    }
+//
+    task androidSourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.allSource
+    }
+
+    artifacts {
+//        archives androidReleaseJar
+        archives androidSourcesJar
+//        archives androidJavadocsJar
+    }
+}
