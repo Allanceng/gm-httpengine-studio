@@ -22,7 +22,7 @@ public class GMHttpRequest {
     private RequestModel httpRequestModel;
     private Map<String, Object> userData;
     private Map<String, String> headers;
-    private WeakReference<OnResponseListener> onResponseListener;
+    private WeakReference<OnResponseListener> onResponseListener = new WeakReference<OnResponseListener>(null);
     private OnProgressUpdateListener onProgressUpdateListener;
     private HttpRequestParser requestParser;
 
