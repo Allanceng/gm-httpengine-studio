@@ -117,9 +117,7 @@ public class GMHttpService {
 			}
 
 			// execute request and get response
-			byte[] resultData = httpEngine.openUrl(mHttpRequest);
-			mHttpResponse = new GMHttpResponse(resultData);
-
+            mHttpResponse = httpEngine.openUrl(mHttpRequest);
 			Message msg = mCallbackHandler.obtainMessage(0, this);
 			msg.sendToTarget();
 		}

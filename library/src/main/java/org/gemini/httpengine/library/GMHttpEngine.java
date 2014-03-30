@@ -33,11 +33,11 @@ public class GMHttpEngine {
     /**
      * start execute
      *
-     * @param httpRequest
+     * @param httpRequest request object
      * @return the raw data server response
      */
-    public byte[] openUrl(GMHttpRequest httpRequest) {
-        byte[] resultData = null;
+    public GMHttpResponse openUrl(GMHttpRequest httpRequest) {
+        GMHttpResponse response = new GMHttpResponse();
         String method = httpRequest.getMethod();
         OnProgressUpdateListener progressListener = httpRequest.getOnProgressUpdateListener();
         Map<String, String> headers = httpRequest.getHeaders();
@@ -88,15 +88,21 @@ public class GMHttpEngine {
                 responseStream = new GZIPInputStream(responseStream);
             }
 
-            resultData = readHttpResponseAsByte(responseStream, length, progressListener);
+            byte[] resultData = readHttpResponseAsByte(responseStream, length, progressListener);
             responseStream.close();
+            response.setRawData(resultData);
+            response.setHttpStatusCode(responseCode);
+
         } catch (IOException e) {
             LOG.w(TAG, e.getClass().getSimpleName(), e);
+            response.setRawData(null);
+        } catch (Exception e) {
+            response.setRawData(null);
         } finally {
             connection.disconnect();
         }
 
-        return resultData;
+        return response;
     }
 
     ByteArrayOutputStream buffer = new ByteArrayOutputStream();

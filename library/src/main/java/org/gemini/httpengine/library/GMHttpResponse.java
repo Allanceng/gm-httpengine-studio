@@ -14,18 +14,18 @@ import org.json.JSONObject;
 public class GMHttpResponse {
 
 	private byte[] rawData;
+    private int httpStatusCode;
 	private HttpResponseParser responseParser;
 
 	private boolean isFail = false;
 
-	public GMHttpResponse(byte[] data) {
-		if (data != null) {
-			this.rawData = data;
-		} else {
-			isFail = true;
-		}
-
-	}
+    public void setRawData(byte[] data) {
+        if (data != null) {
+            this.rawData = data;
+        } else {
+            isFail = true;
+        }
+    }
 
 	public byte[] getRawData() {
 		if (isFail) {
@@ -59,6 +59,14 @@ public class GMHttpResponse {
 		}
 		return ret;
 	}
+
+    public void setHttpStatusCode(int code) {
+        this.httpStatusCode = code;
+    }
+
+    public int getHttpStatusCode() {
+        return this.httpStatusCode;
+    }
 
 	public JSONObject parseAsJSON() {
 		String result = parseAsString();
