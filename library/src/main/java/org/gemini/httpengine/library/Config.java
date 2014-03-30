@@ -9,6 +9,6 @@ public class Config {
      */
     public static boolean isRESTful = false;
 
-    public static final String VERSION_NAME = "1.5";
+    public static final String VERSION_NAME = "1.5.1";
 
 }

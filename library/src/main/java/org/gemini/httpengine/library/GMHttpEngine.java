@@ -67,6 +67,10 @@ public class GMHttpEngine {
             connection.addRequestProperty("Connection", "keep-alive");
             connection.addRequestProperty("User-Agent", "gm-httpengine v"+Config.VERSION_NAME);
 
+            connection.setDoInput(true);
+            connection.setChunkedStreamingMode(0);
+            connection.setConnectTimeout(CONNECTION_TIME_OUT);
+            connection.setReadTimeout(READ_TIME_OUT);
             if (httpEntity != null) {
                 connection.setDoOutput(true);
                 OutputStream httpBodyStream = connection.getOutputStream();
@@ -74,10 +78,6 @@ public class GMHttpEngine {
                 httpBodyStream.flush();
                 httpBodyStream.close();
             }
-            connection.setDoInput(true);
-            connection.setChunkedStreamingMode(0);
-            connection.setConnectTimeout(CONNECTION_TIME_OUT);
-            connection.setReadTimeout(READ_TIME_OUT);
             connection.connect();
             int responseCode = connection.getResponseCode();
             InputStream responseStream = connection.getInputStream();
