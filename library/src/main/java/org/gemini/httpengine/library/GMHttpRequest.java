@@ -43,8 +43,7 @@ public class GMHttpRequest {
 
     public String getUrl() throws IOException {
         String url = this.url;
-        // TODO: RESTFul Support
-        if(Config.isRESTfulSupport) {
+        if(Config.enableRESTfulSupport) {
             this.replaceRegexForREST();
         }
         if( method.equalsIgnoreCase(GMHttpEngine.HTTP_GET)
