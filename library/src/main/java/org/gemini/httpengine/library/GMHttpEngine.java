@@ -105,26 +105,27 @@ public class GMHttpEngine {
         return response;
     }
 
-    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-    byte[] bufferData = new byte[4096];
+    ByteArrayOutputStream bufferStream = new ByteArrayOutputStream();
+    byte[] buffer = new byte[4096];
 
-    private byte[] readHttpResponseAsByte(InputStream is, int length, OnProgressUpdateListener l) {
+    private byte[] readHttpResponseAsByte(InputStream is, int length, OnProgressUpdateListener l) throws IOException{
         try {
             int nRead;
             int nHasRead = 0;
-            while ((nRead = is.read(bufferData, 0, bufferData.length)) != -1) {
-                buffer.write(bufferData, 0, nRead);
+            while ((nRead = is.read(buffer, 0, buffer.length)) != -1) {
+                bufferStream.write(buffer, 0, nRead);
                 nHasRead += nRead;
                 if (null != l) {
                     l.onUpdate(100 * nHasRead / length, String.valueOf(nHasRead));
                 }
             }
-            buffer.flush();
+            bufferStream.flush();
         } catch (IOException e) {
             LOG.d(TAG, e.getClass().getSimpleName(), e);
+            throw e;
         }
-        byte[] ret = buffer.toByteArray();
-        buffer.reset();
+        byte[] ret = bufferStream.toByteArray();
+        bufferStream.reset();
         return ret;
     }
 

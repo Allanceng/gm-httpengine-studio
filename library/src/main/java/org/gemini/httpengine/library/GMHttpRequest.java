@@ -53,6 +53,10 @@ public class GMHttpRequest {
         return url;
     }
 
+    private void replaceRegexForREST() {
+        
+    }
+
     public void setUrl(String url) {
         this.url = url;
     }
