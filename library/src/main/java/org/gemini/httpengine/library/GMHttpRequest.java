@@ -19,18 +19,19 @@ public class GMHttpRequest {
 
     private GMHttpParameters httpParameters;
 
-    private RequestModel httpRequestModel;
     private Map<String, Object> userData;
     private Map<String, String> headers;
     private WeakReference<OnResponseListener> onResponseListener = new WeakReference<OnResponseListener>(null);
     private OnProgressUpdateListener onProgressUpdateListener;
     private HttpRequestParser requestParser;
+    private ModelParser modelParser;
 
     public GMHttpRequest() {
         this.isCanceled = false;
         this.requestParser = new FormUrlEncodedParser();
         this.headers = new HashMap<String, String>();
         this.method = GMHttpEngine.HTTP_GET;
+        this.modelParser = new ModelParser();
     }
 
     public GMHttpRequest(String url, GMHttpParameters httpParameters) {
@@ -39,20 +40,15 @@ public class GMHttpRequest {
     }
 
     public String getUrl() throws IOException {
-        // TODO: RESTFul Support
         String url = this.url;
         if (method.equalsIgnoreCase(GMHttpEngine.HTTP_GET)) {
+            // TODO: RESTFul Support
             FormUrlEncodedParser parser = new FormUrlEncodedParser();
             byte[] data = null;
-            if (null == this.httpRequestModel) {
-                data = parser.parse(httpParameters);
-            } else {
-                data = parser.parse(httpRequestModel);
-            }
+            data = parser.parse(httpParameters);
             if(null != data) {
                 url += "?" + new String(data);
             }
-
         }
         return url;
     }
@@ -77,12 +73,10 @@ public class GMHttpRequest {
         this.taskId = taskId;
     }
 
-    @Deprecated
     public void setHttpParameters(GMHttpParameters httpParameters) {
         this.httpParameters = httpParameters;
     }
 
-    @Deprecated
     public GMHttpParameters getHttpParameters() {
         return httpParameters;
     }
@@ -124,15 +118,8 @@ public class GMHttpRequest {
     }
 
     public byte[] getHttpEntity() throws IOException {
-        byte[] data = null;
-        if (null == this.httpRequestModel) {
-            data = this.requestParser.parse(httpParameters);
-        } else {
-            data = this.requestParser.parse(httpRequestModel);
-        }
-        return data;
+        return this.requestParser.parse(httpParameters);
     }
-
 
     public void addHeader(String key, String value) {
         this.headers.put(key, value);
@@ -150,8 +137,8 @@ public class GMHttpRequest {
         return this.isCanceled;
     }
 
-    public void setHttpParameters(RequestModel requestModel) {
-        this.httpRequestModel = requestModel;
+    public void parseParametersByModel(RequestModel requestModel) {
+        this.httpParameters = this.modelParser.parseModel(requestModel);
     }
 
 }
