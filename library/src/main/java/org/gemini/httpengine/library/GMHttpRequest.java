@@ -39,6 +39,7 @@ public class GMHttpRequest {
     }
 
     public String getUrl() throws IOException {
+        // TODO: RESTFul Support
         String url = this.url;
         if (method.equalsIgnoreCase(GMHttpEngine.HTTP_GET)) {
             FormUrlEncodedParser parser = new FormUrlEncodedParser();

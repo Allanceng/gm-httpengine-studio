@@ -1,5 +1,6 @@
 package org.gemini.httpengine.library;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -22,6 +23,10 @@ public class GMHttpParameters {
 		httpParams.put(name, value.toString());
 		return this;
 	}
+
+    public String removeParameter(String name) {
+        return this.httpParams.remove(name);
+    }
 
 	public Set<String> getNames() {
         return httpParams.keySet();
