@@ -94,11 +94,10 @@ public class GMHttpEngine {
             response.setRawData(resultData);
             response.setHttpStatusCode(responseCode);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.w(TAG, e.getClass().getSimpleName(), e);
             response.setRawData(null);
-        } catch (Exception e) {
-            response.setRawData(null);
+            response.setException(e);
         } finally {
             connection.disconnect();
         }

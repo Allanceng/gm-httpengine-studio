@@ -16,6 +16,7 @@ public class GMHttpResponse {
 	private byte[] rawData;
     private int httpStatusCode;
 	private HttpResponseParser responseParser;
+    private Exception exception;
 
 	private boolean isFail = false;
 
@@ -68,7 +69,16 @@ public class GMHttpResponse {
         return this.httpStatusCode;
     }
 
-	public JSONObject parseAsJSON() {
+    public Exception getException() {
+        return exception;
+    }
+
+    public void setException(Exception exception) {
+        this.exception = exception;
+        this.isFail = true;
+    }
+
+    public JSONObject parseAsJSON() {
 		String result = parseAsString();
 		JSONObject obj = null;
 		try {
