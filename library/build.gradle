@@ -9,7 +9,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 19
-        versionCode 1
+        versionCode getVersionCode()
         versionName getVersionName()
     }
     buildTypes {

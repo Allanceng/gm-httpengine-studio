@@ -7,8 +7,8 @@ public class Config {
     /***
      * Indicate if it is RESTful style
      */
-    public static boolean isRESTful = false;
+    public static boolean isRESTfulSupport = false;
 
-    public static final String VERSION_NAME = "1.5.2";
+    public static final String VERSION_NAME = "1.6";
 
 }

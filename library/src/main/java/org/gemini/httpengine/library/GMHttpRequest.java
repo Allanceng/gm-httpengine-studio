@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Request Object for http engine
@@ -24,14 +26,14 @@ public class GMHttpRequest {
     private WeakReference<OnResponseListener> onResponseListener = new WeakReference<OnResponseListener>(null);
     private OnProgressUpdateListener onProgressUpdateListener;
     private HttpRequestParser requestParser;
-    private ModelParser modelParser;
+    private GMModelParser GMModelParser;
 
     public GMHttpRequest() {
         this.isCanceled = false;
         this.requestParser = new FormUrlEncodedParser();
         this.headers = new HashMap<String, String>();
         this.method = GMHttpEngine.HTTP_GET;
-        this.modelParser = new ModelParser();
+        this.GMModelParser = new GMModelParser();
     }
 
     public GMHttpRequest(String url, GMHttpParameters httpParameters) {
@@ -41,8 +43,12 @@ public class GMHttpRequest {
 
     public String getUrl() throws IOException {
         String url = this.url;
-        if (method.equalsIgnoreCase(GMHttpEngine.HTTP_GET)) {
-            // TODO: RESTFul Support
+        // TODO: RESTFul Support
+        if(Config.isRESTfulSupport) {
+            this.replaceRegexForREST();
+        }
+        if( method.equalsIgnoreCase(GMHttpEngine.HTTP_GET)
+         || method.equalsIgnoreCase(GMHttpEngine.HTTP_DELETE)) {
             FormUrlEncodedParser parser = new FormUrlEncodedParser();
             byte[] data = null;
             data = parser.parse(httpParameters);
@@ -53,8 +59,20 @@ public class GMHttpRequest {
         return url;
     }
 
-    private void replaceRegexForREST() {
-        
+    private String replaceRegexForREST() {
+        GMHttpParameters httpParameters = this.getHttpParameters();
+        String url = this.url;
+        String regex = "/:(\\w+)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(url);
+        while(matcher.find()) {
+            String parameterName = matcher.group(1);
+            String parameterValue = httpParameters.getParameter(parameterName);
+            url = url.replace(":" + matcher.group(1), parameterValue);
+            httpParameters.removeParameter(parameterName);
+        }
+        this.url = url;
+        return url;
     }
 
     public void setUrl(String url) {
@@ -142,7 +160,7 @@ public class GMHttpRequest {
     }
 
     public void parseParametersByModel(RequestModel requestModel) {
-        this.httpParameters = this.modelParser.parseModel(requestModel);
+        this.httpParameters = this.GMModelParser.parseModel(requestModel);
     }
 
 }

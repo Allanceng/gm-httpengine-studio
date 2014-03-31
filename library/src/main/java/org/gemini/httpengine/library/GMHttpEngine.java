@@ -23,8 +23,8 @@ public class GMHttpEngine {
     public static final String HTTP_PUT = "PUT";
     public static final String HTTP_DELETE = "DELETE";
 
-    public static int CONNECTION_TIME_OUT = 30000;
-    public static int READ_TIME_OUT = 30000;
+    public static final int CONNECTION_TIME_OUT = 30000;
+    public static final int READ_TIME_OUT = 30000;
 
     public GMHttpEngine() {
         HttpURLConnection.setFollowRedirects(true);
@@ -48,7 +48,8 @@ public class GMHttpEngine {
             URL url = new URL(uri);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method);
-            if (method.equalsIgnoreCase(HTTP_POST)) {
+            if ( method.equalsIgnoreCase(HTTP_POST)
+              || method.equalsIgnoreCase(HTTP_PUT) ) {
                 String contentType = httpRequest.getContentType();
                 connection.addRequestProperty("Content-Type", contentType);
                 httpEntity = httpRequest.getHttpEntity();

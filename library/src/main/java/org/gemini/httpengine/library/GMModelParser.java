@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 /**
  * Created by geminiwen on 14-3-31.
  */
-public class ModelParser {
+public class GMModelParser {
 
     public GMHttpParameters parseModel(RequestModel httpParamsModel) {
         GMHttpParameters httpParameters = new GMHttpParameters();
