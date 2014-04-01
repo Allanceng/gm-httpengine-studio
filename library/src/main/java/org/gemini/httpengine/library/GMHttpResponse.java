@@ -89,6 +89,10 @@ public class GMHttpResponse {
 		return obj;
 	}
 
+    public boolean isFail() {
+        return this.isFail;
+    }
+
 	public Object parseData() {
 		if (isFail) {
 			throw new RuntimeException("Request is failed");
