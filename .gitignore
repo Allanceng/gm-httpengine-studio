@@ -15,6 +15,7 @@ proguard-project.txt
 .gradle
 gradle
 build
+local.properties
 
 # IDEA
 *.iml
