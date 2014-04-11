@@ -41,7 +41,7 @@ public class FormUrlEncodedParser implements HttpRequestParser {
 
 
 	@Override
-	public String pareContentType() {
+	public String parseContentType() {
         return "application/x-www-form-urlencoded; charset=UTF-8";
 	}
 

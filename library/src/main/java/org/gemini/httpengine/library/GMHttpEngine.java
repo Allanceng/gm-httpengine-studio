@@ -84,8 +84,7 @@ public class GMHttpEngine {
             InputStream responseStream = connection.getInputStream();
             int length = connection.getContentLength();
             String contentEncoding = connection.getContentEncoding();
-            if (contentEncoding != null
-                    && contentEncoding.toLowerCase().equals("gzip")) {
+            if (contentEncoding != null && contentEncoding.toLowerCase().equals("gzip")) {
                 responseStream = new GZIPInputStream(responseStream);
             }
 

@@ -15,7 +15,7 @@ public class GMHttpResponse {
 
 	private byte[] rawData;
     private int httpStatusCode;
-	private HttpResponseParser responseParser;
+	private HttpResponseParser<?> responseParser;
     private Exception exception;
 
 	private boolean isFail = false;
@@ -29,9 +29,7 @@ public class GMHttpResponse {
     }
 
 	public byte[] getRawData() {
-		if (isFail) {
-			throw new RuntimeException("Request is failed");
-		}
+		this.filterException();
 		return this.rawData;
 	}
 
@@ -39,7 +37,7 @@ public class GMHttpResponse {
         return responseParser;
 	}
 
-	public void setResponseParser(HttpResponseParser responseParser) {
+	public void setResponseParser(HttpResponseParser<?> responseParser) {
 		this.responseParser = responseParser;
 	}
 
@@ -49,9 +47,7 @@ public class GMHttpResponse {
 
 	public String parseAsString(String encode) {
 		String ret = null;
-		if (isFail) {
-			throw new RuntimeException("Request is failed");
-		}
+        this.filterException();
 		try {
 			ret = new String(this.rawData, encode);
 		} catch (UnsupportedEncodingException e) {
@@ -65,10 +61,10 @@ public class GMHttpResponse {
         this.httpStatusCode = code;
         int status = code / 100;
         switch(status) {
-            case 4: // 400 status
+            case 4: // 400 code
                 this.isFail = true;
                 break;
-            case 5:
+            case 5: // 500 code
                 this.isFail = true;
                 break;
         }
@@ -87,14 +83,9 @@ public class GMHttpResponse {
         this.isFail = true;
     }
 
-    public JSONObject parseAsJSON() {
+    public JSONObject parseAsJSON() throws JSONException{
 		String result = parseAsString();
-		JSONObject obj = null;
-		try {
-			obj = new JSONObject(result);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+		JSONObject obj = new JSONObject(result);
 		return obj;
 	}
 
@@ -103,9 +94,13 @@ public class GMHttpResponse {
     }
 
 	public Object parseData() {
-		if (isFail) {
-			throw new RuntimeException("Request is failed");
-		}
+        this.filterException();
 		return responseParser.handleResponse(this.rawData);
 	}
+
+    private void filterException() throws RuntimeException{
+        if (isFail) {
+            throw new RuntimeException("Request is failed");
+        }
+    }
 }

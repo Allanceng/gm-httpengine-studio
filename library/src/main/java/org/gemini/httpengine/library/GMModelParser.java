@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
  */
 public class GMModelParser {
 
-    public GMHttpParameters parseModel(RequestModel httpParamsModel) {
+    public GMHttpParameters parseModel(Object httpParamsModel) {
         GMHttpParameters httpParameters = new GMHttpParameters();
         Field[] fields = httpParamsModel.getClass().getDeclaredFields();
         for (Field field : fields) {
@@ -65,7 +65,7 @@ public class GMModelParser {
         return newStr;
     }
 
-    private String getValueByField(Field field,RequestModel model) {
+    private String getValueByField(Field field,Object model) {
         Object value = null;
         try {
             boolean accessible = field.isAccessible();

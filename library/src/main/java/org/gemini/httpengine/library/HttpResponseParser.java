@@ -1,5 +1,5 @@
 package org.gemini.httpengine.library;
 
-public interface HttpResponseParser {
-	public Object handleResponse(byte[] response);
+public interface HttpResponseParser<T> {
+	public T handleResponse(byte[] response);
 }

@@ -111,7 +111,7 @@ public class GMHttpRequest {
     }
 
     public String getContentType() {
-        return this.requestParser.pareContentType();
+        return this.requestParser.parseContentType();
     }
 
     public OnResponseListener getResponseListener() {
@@ -158,7 +158,7 @@ public class GMHttpRequest {
         return this.isCanceled;
     }
 
-    public void parseParametersByModel(RequestModel requestModel) {
+    public void parseParametersByModel(Object requestModel) {
         this.httpParameters = this.GMModelParser.parseModel(requestModel);
     }
 
