@@ -63,6 +63,15 @@ public class GMHttpResponse {
 
     public void setHttpStatusCode(int code) {
         this.httpStatusCode = code;
+        int status = code / 100;
+        switch(status) {
+            case 4: // 400 status
+                this.isFail = true;
+                break;
+            case 5:
+                this.isFail = true;
+                break;
+        }
     }
 
     public int getHttpStatusCode() {

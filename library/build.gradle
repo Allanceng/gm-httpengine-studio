@@ -52,10 +52,8 @@ dependencies {
 
 buildscript {
     repositories {
+        mavenLocal()
         mavenCentral()
-        maven {
-            url "http://maven.zjseek.com.cn/content/repositories/central/"
-        }
     }
 }
 
