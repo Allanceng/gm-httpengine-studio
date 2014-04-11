@@ -26,14 +26,14 @@ public class GMHttpRequest {
     private WeakReference<OnResponseListener> onResponseListener = new WeakReference<OnResponseListener>(null);
     private OnProgressUpdateListener onProgressUpdateListener;
     private HttpRequestParser requestParser;
-    private GMModelParser GMModelParser;
+    private GMModelParser modelParser;
 
     public GMHttpRequest() {
         this.isCanceled = false;
         this.requestParser = new FormUrlEncodedParser();
         this.headers = new HashMap<String, String>();
         this.method = GMHttpEngine.HTTP_GET;
-        this.GMModelParser = new GMModelParser();
+        this.modelParser = new GMModelParser();
     }
 
     public GMHttpRequest(String url, GMHttpParameters httpParameters) {
@@ -159,7 +159,7 @@ public class GMHttpRequest {
     }
 
     public void parseParametersByModel(Object requestModel) {
-        this.httpParameters = this.GMModelParser.parseModel(requestModel);
+        this.httpParameters = this.modelParser.parseModel(requestModel);
     }
 
 }
