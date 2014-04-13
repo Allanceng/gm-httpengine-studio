@@ -14,8 +14,8 @@ public class GMModelParser {
         Field[] fields = httpParamsModel.getClass().getDeclaredFields();
         for (Field field : fields) {
 
-            if (field.isAnnotationPresent(HTTPParameter.class)) {
-                HTTPParameter parameter = field.getAnnotation(HTTPParameter.class);
+            if (field.isAnnotationPresent(HttpParameter.class)) {
+                HttpParameter parameter = field.getAnnotation(HttpParameter.class);
                 String parameterName = parameter.name();
                 try {
                     String fieldName = getGenericFieldName(field.getName());

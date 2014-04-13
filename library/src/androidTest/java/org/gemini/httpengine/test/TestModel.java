@@ -1,16 +1,16 @@
 package org.gemini.httpengine.test;
 
-import org.gemini.httpengine.library.HTTPParameter;
+import org.gemini.httpengine.library.HttpParameter;
 
 /**
  * Created by geminiwen on 14-3-22.
  */
 public class TestModel {
 
-    @HTTPParameter(name="name")
+    @HttpParameter(name="name")
     private String message;
 
-    @HTTPParameter(name="sex")
+    @HttpParameter(name="sex")
     private boolean really;
 
     public String getMessage() {
