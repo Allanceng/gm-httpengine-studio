@@ -10,7 +10,9 @@ import java.util.regex.Pattern;
 /**
  * Request Object for http engine
  *
+ * add RESTful support
  * @author Gemini
+ * @version 2.0
  */
 public class GMHttpRequest {
 
@@ -37,6 +39,7 @@ public class GMHttpRequest {
     }
 
     public GMHttpRequest(String url, GMHttpParameters httpParameters) {
+        this();
         this.url = url;
         this.httpParameters = httpParameters;
     }
