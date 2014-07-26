@@ -38,7 +38,7 @@ public class MultiPartParser implements HttpRequestParser{
     }
 
     @Override
-    public String parseContentType() {
+    public String getContentType() {
         return multipartEntity.getContentType();
     }
 

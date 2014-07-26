@@ -5,7 +5,6 @@ import android.test.InstrumentationTestCase;
 import org.gemini.httpengine.library.GMHttpParameters;
 import org.gemini.httpengine.library.GMHttpRequest;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 
 /**
@@ -21,13 +20,13 @@ public class TestRequestParser extends InstrumentationTestCase{
         GMHttpRequest request = new GMHttpRequest();
 
         model.setMessage("thisisamessage");
-        request.parseParametersByModel(model);
+        request.parseParametersFromModel(model);
         result = request.getHttpEntity();
         data = new String(result);
         assertEquals(data,"name=thisisamessage&sex=false");
 
         model.setMessage(null);
-        request.parseParametersByModel(model);
+        request.parseParametersFromModel(model);
         result = request.getHttpEntity();
         data = new String(result);
         assertEquals(data,"sex=false");

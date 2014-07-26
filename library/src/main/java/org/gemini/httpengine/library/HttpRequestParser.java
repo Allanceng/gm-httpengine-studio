@@ -7,7 +7,7 @@ import org.gemini.httpengine.library.GMHttpParameters;
 public interface HttpRequestParser {
 	public byte[] parse(GMHttpParameters httpParams) throws IOException;
 
-	public String parseContentType();
+	public String getContentType();
 
     public void setEncoding(String encoding);
 

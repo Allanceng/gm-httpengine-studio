@@ -49,12 +49,11 @@ public class GMHttpRequest {
         if(Config.enableRESTfulSupport) {
             this.replaceRegexForREST();
         }
-        if( method.equalsIgnoreCase(HttpMethod.HTTP_GET)
-         || method.equalsIgnoreCase(HttpMethod.HTTP_DELETE)) {
+        if (method.equalsIgnoreCase(HttpMethod.HTTP_GET)  ||
+            method.equalsIgnoreCase(HttpMethod.HTTP_DELETE)) {
             FormUrlEncodedParser parser = new FormUrlEncodedParser();
-            byte[] data = null;
-            data = parser.parse(httpParameters);
-            if(null != data) {
+            byte[] data = parser.parse(httpParameters);
+            if (null != data) {
                 url += "?" + new String(data);
             }
         }
@@ -114,7 +113,7 @@ public class GMHttpRequest {
     }
 
     public String getContentType() {
-        return this.requestParser.parseContentType();
+        return this.requestParser.getContentType();
     }
 
     public long getContentLength() {
@@ -165,7 +164,7 @@ public class GMHttpRequest {
         return this.isCanceled;
     }
 
-    public void parseParametersByModel(Object requestModel) {
+    public void parseParametersFromModel(Object requestModel) {
         this.httpParameters = this.modelParser.parseModel(requestModel);
     }
 
