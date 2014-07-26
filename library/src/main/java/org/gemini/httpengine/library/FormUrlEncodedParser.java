@@ -15,6 +15,8 @@ import java.util.Set;
 
 public class FormUrlEncodedParser implements HttpRequestParser {
 
+    private String mEncodingString = "UTF-8";
+
 	/***
 	 * parse form body
 	 */
@@ -42,7 +44,12 @@ public class FormUrlEncodedParser implements HttpRequestParser {
 
 	@Override
 	public String parseContentType() {
-        return "application/x-www-form-urlencoded; charset=UTF-8";
+        return "application/x-www-form-urlencoded; charset=" + mEncodingString;
 	}
+
+    @Override
+    public void setEncoding(String encoding) {
+        this.mEncodingString = encoding;
+    }
 
 }

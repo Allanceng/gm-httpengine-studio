@@ -8,4 +8,6 @@ public interface HttpRequestParser {
 	public byte[] parse(GMHttpParameters httpParams) throws IOException;
 
 	public String parseContentType();
+
+    public void setEncoding(String encoding);
 }
