@@ -10,13 +10,13 @@ import android.util.Log;
  */
 public class LOG {
 	public static final boolean DEBUG = false;
-	public static final int LEVEL_VERBONSE = Log.VERBOSE;
+	public static final int LEVEL_VERBOSE = Log.VERBOSE;
 	public static final int LEVEL_DEBUG = Log.DEBUG;
 	public static final int LEVEL_INFO = Log.INFO;
 	public static final int LEVEL_WARN = Log.WARN;
 	public static final int LEVEL_ERROR = Log.ERROR;
 
-	private static int level = LEVEL_VERBONSE;
+	private static int level = LEVEL_VERBOSE;
 
 	public static void setLevel(int level) {
 		LOG.level = level;
@@ -26,7 +26,7 @@ public class LOG {
 	}
 
 	public static void v(String tag, String msg) {
-		if (level <= LEVEL_VERBONSE) {
+		if (level <= LEVEL_VERBOSE) {
 			Log.v(tag, msg);
 		}
 	}
