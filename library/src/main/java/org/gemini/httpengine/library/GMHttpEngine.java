@@ -50,9 +50,19 @@ public class GMHttpEngine {
             connection.setRequestMethod(method);
             if ( method.equalsIgnoreCase(HttpMethod.HTTP_POST)
               || method.equalsIgnoreCase(HttpMethod.HTTP_PUT) ) {
-                String contentType = httpRequest.getContentType();
-                connection.addRequestProperty("Content-Type", contentType);
                 httpEntity = httpRequest.getHttpEntity();
+
+                String contentType = httpRequest.getContentType();
+                if (contentType != null){
+                    connection.addRequestProperty("Content-Type", contentType);
+                }
+
+                long contentLength = httpRequest.getContentLength();
+                if (contentLength != -1) {
+                    connection.addRequestProperty("Content-Length", String.valueOf(contentLength));
+                }
+
+
             }
             LOG.d(TAG, uri);
 

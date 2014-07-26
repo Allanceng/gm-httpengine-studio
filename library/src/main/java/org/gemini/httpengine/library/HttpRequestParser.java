@@ -10,4 +10,6 @@ public interface HttpRequestParser {
 	public String parseContentType();
 
     public void setEncoding(String encoding);
+
+    public long getContentLength();
 }

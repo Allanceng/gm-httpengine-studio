@@ -22,7 +22,7 @@ public class FormUrlEncodedParser implements HttpRequestParser {
 	 * parse form body
 	 */
 	@Override
-	public byte[] parse(GMHttpParameters httpParameters) throws IOException {
+	public byte[] parse(GMHttpParameters httpParameters) throws IOException,GMHttpException {
         if(httpParameters == null) {
             return null;
         }
@@ -33,6 +33,8 @@ public class FormUrlEncodedParser implements HttpRequestParser {
             if (!(value instanceof File)) {
                 NameValuePair p = new BasicNameValuePair(name, value.toString());
                 nvps.add(p);
+            } else {
+                throw new GMHttpException("FormUrlEncoding cannot have file part");
             }
         }
         HttpEntity entity = new UrlEncodedFormEntity(nvps, mEncodingString);
@@ -55,4 +57,8 @@ public class FormUrlEncodedParser implements HttpRequestParser {
         this.mEncodingString = encoding;
     }
 
+    @Override
+    public long getContentLength() {
+        return -1;
+    }
 }
