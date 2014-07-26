@@ -5,6 +5,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -28,9 +29,11 @@ public class FormUrlEncodedParser implements HttpRequestParser {
         Set<String> keySet = httpParameters.getNames();
         ArrayList<NameValuePair> nvps = new ArrayList<NameValuePair>();
         for (String name : keySet) {
-            String value = httpParameters.getParameter(name);
-            NameValuePair p = new BasicNameValuePair(name, value);
-            nvps.add(p);
+            Object value = httpParameters.getParameter(name);
+            if (!(value instanceof File)) {
+                NameValuePair p = new BasicNameValuePair(name, value.toString());
+                nvps.add(p);
+            }
         }
         HttpEntity entity = new UrlEncodedFormEntity(nvps, "UTF-8");
         InputStream is = entity.getContent();

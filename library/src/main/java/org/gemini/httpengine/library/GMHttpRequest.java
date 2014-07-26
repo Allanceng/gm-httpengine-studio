@@ -69,7 +69,7 @@ public class GMHttpRequest {
         Matcher matcher = pattern.matcher(url);
         while(matcher.find()) {
             String parameterName = matcher.group(1);
-            String parameterValue = httpParameters.getParameter(parameterName);
+            String parameterValue = httpParameters.getParameter(parameterName).toString();
             url = url.replace(":" + matcher.group(1), parameterValue);
             httpParameters.removeParameter(parameterName);
         }

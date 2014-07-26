@@ -1,31 +1,32 @@
 package org.gemini.httpengine.library;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
 public class GMHttpParameters {
-	private TreeMap<String, String> httpParameters;
+	private TreeMap<String, Object> httpParameters;
 
 	public GMHttpParameters() {
-        httpParameters = new TreeMap<String, String>();
+        httpParameters = new TreeMap<String, Object>();
 	}
 
 	public GMHttpParameters(GMHttpParameters other) {
-		this.httpParameters = new TreeMap<String, String>(other.httpParameters);
+		this.httpParameters = new TreeMap<String, Object>(other.httpParameters);
 	}
 
-	public String getParameter(String name) {
+	public Object getParameter(String name) {
         return httpParameters.get(name);
 	}
 
     public GMHttpParameters setParameter(String name, Object value) {
         if (value != null) {
-            httpParameters.put(name, value.toString());
+            httpParameters.put(name, value);
         }
         return this;
     }
 
-    public String removeParameter(String name) {
+    public Object removeParameter(String name) {
         return this.httpParameters.remove(name);
     }
 
