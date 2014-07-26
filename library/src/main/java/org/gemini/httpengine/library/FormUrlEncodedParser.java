@@ -35,7 +35,7 @@ public class FormUrlEncodedParser implements HttpRequestParser {
                 nvps.add(p);
             }
         }
-        HttpEntity entity = new UrlEncodedFormEntity(nvps, "UTF-8");
+        HttpEntity entity = new UrlEncodedFormEntity(nvps, mEncodingString);
         InputStream is = entity.getContent();
         int available = is.available();
         byte[] buffer = new byte[available];
