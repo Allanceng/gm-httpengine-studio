@@ -18,16 +18,16 @@ import java.util.zip.GZIPInputStream;
 public class GMHttpEngine {
     public static String TAG = GMHttpEngine.class.getSimpleName();
 
-    public static final String HTTP_GET = "GET";
-    public static final String HTTP_POST = "POST";
-    public static final String HTTP_PUT = "PUT";
-    public static final String HTTP_DELETE = "DELETE";
-
     public static final int CONNECTION_TIME_OUT = 30000;
     public static final int READ_TIME_OUT = 30000;
 
+    private int mConnectionTimeOut;
+    private int mReadTimeOut;
+
     public GMHttpEngine() {
         HttpURLConnection.setFollowRedirects(true);
+        mConnectionTimeOut = CONNECTION_TIME_OUT;
+        mReadTimeOut = READ_TIME_OUT;
     }
 
     /**
@@ -48,8 +48,8 @@ public class GMHttpEngine {
             URL url = new URL(uri);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method);
-            if ( method.equalsIgnoreCase(HTTP_POST)
-              || method.equalsIgnoreCase(HTTP_PUT) ) {
+            if ( method.equalsIgnoreCase(HttpMethod.HTTP_POST)
+              || method.equalsIgnoreCase(HttpMethod.HTTP_PUT) ) {
                 String contentType = httpRequest.getContentType();
                 connection.addRequestProperty("Content-Type", contentType);
                 httpEntity = httpRequest.getHttpEntity();
@@ -66,7 +66,7 @@ public class GMHttpEngine {
 
             connection.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
             connection.addRequestProperty("Connection", "keep-alive");
-            connection.addRequestProperty("User-Agent", "gm-httpengine v"+Config.VERSION_NAME);
+            connection.addRequestProperty("User-Agent", "gm-httpengine v" + Config.VERSION_NAME);
 
             connection.setDoInput(true);
             connection.setChunkedStreamingMode(0);
@@ -89,6 +89,7 @@ public class GMHttpEngine {
             }
 
             byte[] resultData = readHttpResponseAsByte(responseStream, length, progressListener);
+
             responseStream.close();
             response.setRawData(resultData);
             response.setHttpStatusCode(responseCode);
@@ -104,8 +105,11 @@ public class GMHttpEngine {
         return response;
     }
 
-    ByteArrayOutputStream bufferStream = new ByteArrayOutputStream();
-    byte[] buffer = new byte[4096];
+    /**
+     * receive buffer;
+     */
+    private ByteArrayOutputStream bufferStream = new ByteArrayOutputStream();
+    private byte[] buffer = new byte[4096];
 
     private byte[] readHttpResponseAsByte(InputStream is, int length, OnProgressUpdateListener l) throws IOException{
         try {

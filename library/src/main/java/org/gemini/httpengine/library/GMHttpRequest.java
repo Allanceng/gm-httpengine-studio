@@ -34,7 +34,7 @@ public class GMHttpRequest {
         this.isCanceled = false;
         this.requestParser = new FormUrlEncodedParser();
         this.headers = new HashMap<String, String>();
-        this.method = GMHttpEngine.HTTP_GET;
+        this.method = HttpMethod.HTTP_GET;
         this.modelParser = new GMModelParser();
     }
 
@@ -49,8 +49,8 @@ public class GMHttpRequest {
         if(Config.enableRESTfulSupport) {
             this.replaceRegexForREST();
         }
-        if( method.equalsIgnoreCase(GMHttpEngine.HTTP_GET)
-         || method.equalsIgnoreCase(GMHttpEngine.HTTP_DELETE)) {
+        if( method.equalsIgnoreCase(HttpMethod.HTTP_GET)
+         || method.equalsIgnoreCase(HttpMethod.HTTP_DELETE)) {
             FormUrlEncodedParser parser = new FormUrlEncodedParser();
             byte[] data = null;
             data = parser.parse(httpParameters);
