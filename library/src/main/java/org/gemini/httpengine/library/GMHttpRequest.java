@@ -32,7 +32,6 @@ public class GMHttpRequest {
 
     public GMHttpRequest() {
         this.isCanceled = false;
-        this.requestParser = new FormUrlEncodedParser();
         this.headers = new HashMap<String, String>();
         this.method = HttpMethod.HTTP_GET;
         this.modelParser = new GMModelParser();
@@ -98,6 +97,11 @@ public class GMHttpRequest {
 
     public void setHttpParameters(GMHttpParameters httpParameters) {
         this.httpParameters = httpParameters;
+        if (httpParameters.isBinaryContent()) {
+            this.requestParser = new MultiPartParser();
+        } else {
+            this.requestParser = new FormUrlEncodedParser();
+        }
     }
 
     public GMHttpParameters getHttpParameters() {
@@ -165,7 +169,8 @@ public class GMHttpRequest {
     }
 
     public void parseParametersFromModel(Object requestModel) {
-        this.httpParameters = this.modelParser.parseModel(requestModel);
+        GMHttpParameters httpParameters = this.modelParser.parseModel(requestModel);
+        this.setHttpParameters(httpParameters);
     }
 
 }

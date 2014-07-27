@@ -1,5 +1,6 @@
 package org.gemini.httpengine.library;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -33,18 +34,23 @@ public class GMModelParser {
                     getterMethod = httpParamsModel.getClass().getMethod(getterMethodName);
 
                     Object value = getterMethod.invoke(httpParamsModel);
-                    if(null != value) {
-                        httpParameters.setParameter(parameterName,value);
+                    if (null != value) {
+                        if(!(value instanceof File)) {
+                            httpParameters.setParameter(parameterName, value.toString());
+                        } else {
+                            httpParameters.setParameter(parameterName, (File)value);
+                        }
                     }
+
                 } catch (NoSuchMethodException e) {
                     String value = getValueByField(field, httpParamsModel);
                     if(null != value) {
-                        httpParameters.setParameter(parameterName,value);
+                        httpParameters.setParameter(parameterName, value);
                     }
                 } catch (IllegalAccessException e) {
                     String value = getValueByField(field, httpParamsModel);
                     if(null != value) {
-                        httpParameters.setParameter(parameterName,value);
+                        httpParameters.setParameter(parameterName, value);
                     }
                 } catch (InvocationTargetException e) {
                     // Never in this block

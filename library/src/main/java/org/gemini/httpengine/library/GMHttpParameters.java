@@ -1,11 +1,12 @@
 package org.gemini.httpengine.library;
 
-import java.util.Objects;
+import java.io.File;
 import java.util.Set;
 import java.util.TreeMap;
 
 public class GMHttpParameters {
 	private TreeMap<String, Object> httpParameters;
+    private boolean binaryData = false;
 
 	public GMHttpParameters() {
         httpParameters = new TreeMap<String, Object>();
@@ -19,11 +20,23 @@ public class GMHttpParameters {
         return httpParameters.get(name);
 	}
 
-    public GMHttpParameters setParameter(String name, Object value) {
+    public GMHttpParameters setParameter(String name, String value) {
         if (value != null) {
             httpParameters.put(name, value);
         }
         return this;
+    }
+
+    public GMHttpParameters setParameter(String name, File value) {
+        if (value != null) {
+            binaryData = true;
+            httpParameters.put(name, value);
+        }
+        return this;
+    }
+
+    public boolean isBinaryContent() {
+        return this.binaryData;
     }
 
     public Object removeParameter(String name) {

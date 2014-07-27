@@ -40,7 +40,7 @@ public class TestRequestParser extends InstrumentationTestCase{
         method.setAccessible(true);
 
         httpParameters = new GMHttpParameters();
-        httpParameters.setParameter("id","2");
+        httpParameters.setParameter("id", "2");
         url = "http://url/products/:id";
         request.setHttpParameters(httpParameters);
         request.setUrl(url);
@@ -49,7 +49,7 @@ public class TestRequestParser extends InstrumentationTestCase{
 
 
         httpParameters = new GMHttpParameters();
-        httpParameters.setParameter("id","2");
+        httpParameters.setParameter("id", "2");
         url = "http://url/products/:id/test";
         request.setHttpParameters(httpParameters);
         request.setUrl(url);
@@ -57,7 +57,7 @@ public class TestRequestParser extends InstrumentationTestCase{
         assertEquals(resultUrl, "http://url/products/2/test");
 
         httpParameters = new GMHttpParameters();
-        httpParameters.setParameter("id","2");
+        httpParameters.setParameter("id", "2");
         httpParameters.setParameter("test", "3");
         url = "http://url/products/:id/test";
         request.setHttpParameters(httpParameters);
@@ -67,7 +67,7 @@ public class TestRequestParser extends InstrumentationTestCase{
 
 
         httpParameters = new GMHttpParameters();
-        httpParameters.setParameter("id","2");
+        httpParameters.setParameter("id", "2");
         httpParameters.setParameter("test", "3");
         url = "http://url/products/:id/:test";
         request.setHttpParameters(httpParameters);

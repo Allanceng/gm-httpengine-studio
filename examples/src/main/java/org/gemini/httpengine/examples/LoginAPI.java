@@ -18,8 +18,8 @@ public class LoginAPI {
     public void login(String username,String password,OnResponseListener l) {
         GMHttpParameters httpParameters = new GMHttpParameters();
         GMHttpRequest httpRequest = new GMHttpRequest();
-        httpParameters.setParameter("password",password);
-        httpParameters.setParameter("username",username);
+        httpParameters.setParameter("password", password);
+        httpParameters.setParameter("username", username);
         httpRequest.setUrl("http://cloud-monitor.seekyun.com/api/user/login");
         httpRequest.setHttpParameters(httpParameters);
         httpRequest.setOnResponseListener(l);
