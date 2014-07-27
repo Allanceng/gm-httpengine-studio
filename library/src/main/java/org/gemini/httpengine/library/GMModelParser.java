@@ -7,6 +7,9 @@ import java.lang.reflect.Method;
 
 /**
  * Created by geminiwen on 14-3-31.
+ *
+ * Convert a simple object to  {@link org.gemini.httpengine.library.GMHttpParameters}
+ *
  */
 public class GMModelParser {
 

@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.Set;
 import java.util.TreeMap;
 
+/**
+ * http parameter collection
+ */
 public class GMHttpParameters {
 	private TreeMap<String, Object> httpParameters;
     private boolean binaryData = false;

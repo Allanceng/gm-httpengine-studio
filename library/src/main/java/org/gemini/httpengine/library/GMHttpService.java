@@ -13,6 +13,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -42,7 +43,9 @@ public class GMHttpService {
 	private Handler mCallbackHandler;
 
 	private GMHttpService() {
-		mService = Executors.newFixedThreadPool(MAX_THREAD_NUM);
+		mService = new ThreadPoolExecutor(0, MAX_THREAD_NUM,
+                60L, TimeUnit.SECONDS,
+                new SynchronousQueue<Runnable>());
 		mResponseCallBack = new ResponseDataCallback();
 
 		mHandlerThread = new HandlerThread(TAG + "-HandlerThread");

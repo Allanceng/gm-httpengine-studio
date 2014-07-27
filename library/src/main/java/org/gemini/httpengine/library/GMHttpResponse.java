@@ -52,7 +52,7 @@ public class GMHttpResponse {
 			ret = new String(this.rawData, encode);
 		} catch (UnsupportedEncodingException e) {
 			isFail = true;
-			throw new RuntimeException("Unsupport encoding " + e.getMessage());
+			throw new GMHttpException("Unsupport encoding " + e.getMessage());
 		}
 		return ret;
 	}
@@ -60,13 +60,17 @@ public class GMHttpResponse {
     public void setHttpStatusCode(int code) {
         this.httpStatusCode = code;
         int status = code / 100;
-        switch(status) {
-            case 4: // 400 code
-                this.isFail = true;
-                break;
-            case 5: // 500 code
-                this.isFail = true;
-                break;
+        switch (status) {
+        case 4: {
+            // 400 code
+            this.isFail = true;
+            break;
+        }
+        case 5: {
+            // 500 code
+            this.isFail = true;
+            break;
+        }
         }
     }
 
@@ -100,7 +104,7 @@ public class GMHttpResponse {
 
     private void filterException() throws RuntimeException{
         if (isFail) {
-            throw new RuntimeException("Request is failed");
+            throw new GMHttpException("Request is failed, with code: " + this.httpStatusCode);
         }
     }
 }

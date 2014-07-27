@@ -46,7 +46,7 @@ public class GMHttpRequest {
     public String getUrl() throws IOException {
         String url = this.url;
         if(Config.enableRESTfulSupport) {
-            this.replaceRegexForREST();
+            this.replaceRegexForRESTUri();
         }
         if (method.equalsIgnoreCase(HttpMethod.HTTP_GET)  ||
             method.equalsIgnoreCase(HttpMethod.HTTP_DELETE)) {
@@ -59,13 +59,13 @@ public class GMHttpRequest {
         return url;
     }
 
-    private String replaceRegexForREST() {
+    private String replaceRegexForRESTUri() {
         GMHttpParameters httpParameters = this.getHttpParameters();
         String url = this.url;
         String regex = "/:(\\w+)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(url);
-        while(matcher.find()) {
+        while (matcher.find()) {
             String parameterName = matcher.group(1);
             String parameterValue = httpParameters.getParameter(parameterName).toString();
             url = url.replace(":" + matcher.group(1), parameterValue);
