@@ -5,7 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public class GMHttpService {
+public class GMHttpService implements GMHttpMethodExecutor{
 
 	public static final String TAG = GMHttpService.class.getSimpleName();
 	public static final String VERSION = Config.VERSION_NAME;
@@ -85,6 +85,7 @@ public class GMHttpService {
 	 * @param httpRequest
 	 *            the http request object
 	 */
+    @Override
 	public void executeHttpMethod(GMHttpRequest httpRequest) {
 		Runnable runnable = new HttpRunnable(httpRequest);
 		mService.execute(runnable);
@@ -96,6 +97,7 @@ public class GMHttpService {
 	 * @param httpRequest
 	 *            the request to cancel
 	 */
+    @Override
 	public void cancelRequest(GMHttpRequest httpRequest) {
 		//@TODO: to be completed;
         httpRequest.cancel();
