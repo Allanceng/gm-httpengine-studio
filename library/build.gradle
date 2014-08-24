@@ -1,4 +1,10 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
+
+repositories {
+    mavenLocal()
+    jcenter()
+}
 
 android {
     compileSdkVersion 19
@@ -10,22 +16,6 @@ android {
         versionCode getVersionCode()
         versionName getVersionName()
     }
-    buildTypes {
-        release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-        }
-    }
-
-    sourceSets {
-        main {
-            manifest.srcFile 'src/main/AndroidManifest.xml'
-            java {
-                srcDir 'src/main/java'
-            }
-            resources {
-                srcDir 'src/main/res'
-            }
-        }
-    }
 }
+
+apply from: "../maven_push.gradle"
