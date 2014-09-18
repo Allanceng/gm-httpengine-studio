@@ -16,9 +16,7 @@ android {
         versionCode getVersionCode()
         versionName getVersionName()
     }
-}
 
-<<<<<<< HEAD
     sourceSets {
         main {
             manifest.srcFile 'src/main/AndroidManifest.xml'
@@ -33,6 +31,4 @@ android {
 }
 
 apply from: '../maven_push.gradle'
-=======
-apply from: "../maven_push.gradle"
->>>>>>> 7782561133043b8b910d75dfbab8edfaeac6486d
+
