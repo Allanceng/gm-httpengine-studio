@@ -45,7 +45,7 @@ public class GMHttpService implements GMHttpMethodExecutor{
 	private GMHttpService() {
 		mService = new ThreadPoolExecutor(0, MAX_THREAD_NUM,
                 60L, TimeUnit.SECONDS,
-                new SynchronousQueue<Runnable>());
+                new LinkedBlockingQueue<Runnable>(MAX_THREAD_NUM));
 		mResponseCallBack = new ResponseDataCallback();
 
 		mHandlerThread = new HandlerThread(TAG + "-HandlerThread");

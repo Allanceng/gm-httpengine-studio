@@ -1,0 +1,28 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+configurations {
+    archives {
+        extendsFrom configurations.default
+    }
+}
+
+def sonatypeUrl = "http://maven.zjseek.com.cn/content/repositories/snapshots"
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.artifactId = POM_ARTIFACT_ID
+
+            repository(url: sonatypeUrl) {
+                authentication(userName: "admin", password: "seekadmin")
+            }
+
+            pom.project {
+                name POM_NAME
+                packaging POM_PACKAGING
+                description POM_DESCRIPTION
+            }
+        }
+    }
+}
