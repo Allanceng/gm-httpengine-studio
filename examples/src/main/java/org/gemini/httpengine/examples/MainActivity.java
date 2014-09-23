@@ -34,7 +34,7 @@ public class MainActivity extends Activity implements View.OnClickListener,OnRes
     @Override
     public void onClick(View v) {
         if(v == mTestButton) {
-            mLoginAPI.login("","",this);
+            mLoginAPI.uploadImages("02191ae95cee91ef3fa772f2868add5f", this);
         }
     }
 
@@ -43,11 +43,11 @@ public class MainActivity extends Activity implements View.OnClickListener,OnRes
         String result = null;
         try {
             result = response.parseAsString();
-
-        } catch (RuntimeException e) {
+            Log.d("test", result);
+        } catch (Exception e) {
             result = "no content";
         }
 
-        Toast.makeText(this,result,Toast.LENGTH_LONG).show();
+//        Toast.makeText(this,result,Toast.LENGTH_LONG).show();
     }
 }

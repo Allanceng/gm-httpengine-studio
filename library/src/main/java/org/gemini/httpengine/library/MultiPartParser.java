@@ -24,10 +24,10 @@ public class MultiPartParser implements HttpRequestParser{
         Set<String> keySet = httpParameters.getNames();
         for (String name : keySet) {
             Object value = httpParameters.getParameter(name);
-            if ((value instanceof File) || (value instanceof Number )) {
+            if (value instanceof  File) {
+                multipartEntity.addPart(name, (File) value);
+            } else {
                 multipartEntity.addPart(name, value.toString());
-            } else if (value instanceof  File) {
-                multipartEntity.addPart(name, (File)value);
             }
         }
         mByteArrayBufferStream.reset();

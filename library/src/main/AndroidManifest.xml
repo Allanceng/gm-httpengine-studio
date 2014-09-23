@@ -1,8 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.gemini.httpengine.library"
 
-    android:versionCode="11"
-    android:versionName="1.9.0-SNAPSHOT">
+    android:versionCode="13"
+    android:versionName="1.9.2-SNAPSHOT">
+
     <application />
 
 </manifest>
