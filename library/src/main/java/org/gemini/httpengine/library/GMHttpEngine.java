@@ -79,7 +79,6 @@ public class GMHttpEngine {
             connection.addRequestProperty("User-Agent", "gm-httpengine v" + Config.VERSION_NAME);
 
             connection.setDoInput(true);
-            connection.setChunkedStreamingMode(0);
             connection.setConnectTimeout(CONNECTION_TIME_OUT);
             connection.setReadTimeout(READ_TIME_OUT);
             if (httpEntity != null) {
