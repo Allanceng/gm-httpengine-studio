@@ -34,7 +34,7 @@ public class MainActivity extends Activity implements View.OnClickListener,OnRes
     @Override
     public void onClick(View v) {
         if(v == mTestButton) {
-            mLoginAPI.uploadImages("02191ae95cee91ef3fa772f2868add5f", this);
+            mLoginAPI.login(null, null, this);
         }
     }
 

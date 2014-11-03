@@ -23,9 +23,7 @@ public class LoginAPI {
     public void login(String username,String password,OnResponseListener l) {
         GMHttpParameters httpParameters = new GMHttpParameters();
         GMHttpRequest httpRequest = new GMHttpRequest();
-        httpParameters.setParameter("password", password);
-        httpParameters.setParameter("username", username);
-        httpRequest.setUrl("http://cloud-monitor.seekyun.com/api/user/login");
+        httpRequest.setUrl("http://www.baidu.com/s?wd=%E6%9D%9C%E7%91%9E%E9%9B%AA");
         httpRequest.setHttpParameters(httpParameters);
         httpRequest.setOnResponseListener(l);
         mService.executeHttpMethod(httpRequest);

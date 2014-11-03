@@ -22,9 +22,7 @@ public class GMHttpService implements GMHttpMethodExecutor{
 	private final Executor mService;
 
 	private GMHttpService() {
-        mService = new ThreadPoolExecutor(0, MAX_THREAD_NUM,
-                60L, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<Runnable>());
+        mService = Executors.newCachedThreadPool();
 	}
 
 	/***
