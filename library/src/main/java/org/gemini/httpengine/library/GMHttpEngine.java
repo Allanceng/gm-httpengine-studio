@@ -21,13 +21,8 @@ public class GMHttpEngine {
     public static final int CONNECTION_TIME_OUT = 30000;
     public static final int READ_TIME_OUT = 30000;
 
-    private int mConnectionTimeOut;
-    private int mReadTimeOut;
-
     public GMHttpEngine() {
         HttpURLConnection.setFollowRedirects(true);
-        mConnectionTimeOut = CONNECTION_TIME_OUT;
-        mReadTimeOut = READ_TIME_OUT;
     }
 
     /**
@@ -107,10 +102,7 @@ public class GMHttpEngine {
             LOG.w(TAG, e.getClass().getSimpleName(), e);
             response.setRawData(null);
             response.setException(e);
-        } finally {
-            connection.disconnect();
         }
-
         return response;
     }
 
