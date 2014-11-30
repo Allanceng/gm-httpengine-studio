@@ -85,6 +85,7 @@ public class GMHttpEngine {
             }
             connection.connect();
             int responseCode = connection.getResponseCode();
+            response.setHttpStatusCode(responseCode);
             InputStream responseStream = connection.getInputStream();
             int length = connection.getContentLength();
             String contentEncoding = connection.getContentEncoding();
@@ -96,7 +97,6 @@ public class GMHttpEngine {
 
             responseStream.close();
             response.setRawData(resultData);
-            response.setHttpStatusCode(responseCode);
 
         } catch (Exception e) {
             LOG.w(TAG, e.getClass().getSimpleName(), e);
