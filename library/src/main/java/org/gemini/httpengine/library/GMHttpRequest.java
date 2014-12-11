@@ -25,6 +25,7 @@ public class GMHttpRequest {
 
     private Map<String, Object> userData;
     private Map<String, String> headers;
+    private Map<String, String> cookies;
     private WeakReference<OnResponseListener> onResponseListener = new WeakReference<OnResponseListener>(null);
     private OnProgressUpdateListener onProgressUpdateListener;
     private HttpRequestParser requestParser;
@@ -33,6 +34,7 @@ public class GMHttpRequest {
     public GMHttpRequest() {
         this.isCanceled = false;
         this.headers = new HashMap<String, String>();
+        this.cookies = new HashMap<String, String>();
         this.method = HttpMethod.HTTP_GET;
         this.modelParser = new GMModelParser();
     }
@@ -156,8 +158,24 @@ public class GMHttpRequest {
         this.headers.put(key, value);
     }
 
+    public String getHeader(String key) {
+        return this.headers.get(key);
+    }
+
     public Map<String, String> getHeaders() {
         return this.headers;
+    }
+
+    public void addRequestProperty(String key, String value) {
+        this.cookies.put(key, value);
+    }
+
+    public Map<String, String> getRequestProperties() {
+        return this.cookies;
+    }
+
+    public String getRequestProperty(String key) {
+        return this.cookies.get(key);
     }
 
     public void cancel() {

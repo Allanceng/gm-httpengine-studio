@@ -20,6 +20,8 @@ public class GMHttpEngine {
 
     public static final int CONNECTION_TIME_OUT = 30000;
     public static final int READ_TIME_OUT = 30000;
+    private static final String SET_COOKIE_SEPARATOR = "; ";
+    private static final String COOKIE = "Cookie";
 
     public GMHttpEngine() {
         HttpURLConnection.setFollowRedirects(true);
@@ -36,6 +38,7 @@ public class GMHttpEngine {
         String method = httpRequest.getMethod();
         OnProgressUpdateListener progressListener = httpRequest.getOnProgressUpdateListener();
         Map<String, String> headers = httpRequest.getHeaders();
+        Map<String, String> cookies = httpRequest.getRequestProperties();
         HttpURLConnection connection = null;
         byte[] httpEntity = null;
         try {
@@ -67,6 +70,25 @@ public class GMHttpEngine {
                     String value = e.getValue();
                     connection.addRequestProperty(key, value);
                 }
+            }
+
+            if (cookies != null) {
+                StringBuilder cookieBuilder = new StringBuilder();
+                boolean isFirst = true;
+                for (Entry<String, String> e : cookies.entrySet()) {
+                    String key = e.getKey();
+                    String value = e.getValue();
+                    if (value == null) {
+                        continue;
+                    }
+                    if (isFirst)  {
+                        isFirst = false;
+                    } else {
+                        cookieBuilder.append(SET_COOKIE_SEPARATOR);
+                    }
+                    cookieBuilder.append(key + "=" + value);
+                }
+                connection.setRequestProperty("Cookie", cookieBuilder.toString());
             }
 
             connection.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
