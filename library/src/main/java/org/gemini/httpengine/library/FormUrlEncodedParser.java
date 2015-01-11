@@ -31,6 +31,9 @@ public class FormUrlEncodedParser implements HttpRequestParser {
         for (String name : keySet) {
             Object value = httpParameters.getParameter(name);
             if (!(value instanceof File)) {
+                if (value == null) {
+                    continue;
+                }
                 NameValuePair p = new BasicNameValuePair(name, value.toString());
                 nvps.add(p);
             } else {

@@ -20,14 +20,11 @@ public class GMHttpEngine {
 
     public static final int CONNECTION_TIME_OUT = 30000;
     public static final int READ_TIME_OUT = 30000;
-
-    private int mConnectionTimeOut;
-    private int mReadTimeOut;
+    private static final String SET_COOKIE_SEPARATOR = "; ";
+    private static final String COOKIE = "Cookie";
 
     public GMHttpEngine() {
         HttpURLConnection.setFollowRedirects(true);
-        mConnectionTimeOut = CONNECTION_TIME_OUT;
-        mReadTimeOut = READ_TIME_OUT;
     }
 
     /**
@@ -41,6 +38,7 @@ public class GMHttpEngine {
         String method = httpRequest.getMethod();
         OnProgressUpdateListener progressListener = httpRequest.getOnProgressUpdateListener();
         Map<String, String> headers = httpRequest.getHeaders();
+        Map<String, String> cookies = httpRequest.getRequestProperties();
         HttpURLConnection connection = null;
         byte[] httpEntity = null;
         try {
@@ -74,12 +72,30 @@ public class GMHttpEngine {
                 }
             }
 
+            if (cookies != null) {
+                StringBuilder cookieBuilder = new StringBuilder();
+                boolean isFirst = true;
+                for (Entry<String, String> e : cookies.entrySet()) {
+                    String key = e.getKey();
+                    String value = e.getValue();
+                    if (value == null) {
+                        continue;
+                    }
+                    if (isFirst)  {
+                        isFirst = false;
+                    } else {
+                        cookieBuilder.append(SET_COOKIE_SEPARATOR);
+                    }
+                    cookieBuilder.append(key + "=" + value);
+                }
+                connection.setRequestProperty("Cookie", cookieBuilder.toString());
+            }
+
             connection.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
             connection.addRequestProperty("Connection", "keep-alive");
             connection.addRequestProperty("User-Agent", "gm-httpengine v" + Config.VERSION_NAME);
 
             connection.setDoInput(true);
-            connection.setChunkedStreamingMode(0);
             connection.setConnectTimeout(CONNECTION_TIME_OUT);
             connection.setReadTimeout(READ_TIME_OUT);
             if (httpEntity != null) {
@@ -91,6 +107,7 @@ public class GMHttpEngine {
             }
             connection.connect();
             int responseCode = connection.getResponseCode();
+            response.setHttpStatusCode(responseCode);
             InputStream responseStream = connection.getInputStream();
             int length = connection.getContentLength();
             String contentEncoding = connection.getContentEncoding();
@@ -102,14 +119,12 @@ public class GMHttpEngine {
 
             responseStream.close();
             response.setRawData(resultData);
-            response.setHttpStatusCode(responseCode);
 
         } catch (Exception e) {
             LOG.w(TAG, e.getClass().getSimpleName(), e);
             response.setRawData(null);
             response.setException(e);
         }
-
         return response;
     }
 

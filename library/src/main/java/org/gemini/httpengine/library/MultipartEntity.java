@@ -206,8 +206,7 @@ public class MultipartEntity {
     }
 
     public String getContentType() {
-        return "Content-Type : " +
-                "multipart/form-data; boundary=" + boundary;
+        return "multipart/form-data; boundary=" + boundary;
     }
 
 

@@ -8,14 +8,27 @@ repositories {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '20.0.0'
+    buildToolsVersion '21.1.1'
 
     defaultConfig {
-        minSdkVersion 8
+        minSdkVersion 7
         targetSdkVersion 20
         versionCode getVersionCode()
         versionName getVersionName()
     }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java {
+                srcDir 'src/main/java'
+            }
+            resources {
+                srcDir 'src/main/res'
+            }
+        }
+    }
 }
 
-apply from: "../maven_push.gradle"
+apply from: '../maven_push.gradle'
+

@@ -10,7 +10,7 @@ public class GMHttpService implements GMHttpMethodExecutor{
 
 	public static final String TAG = GMHttpService.class.getSimpleName();
 	public static final String VERSION = Config.VERSION_NAME;
-    private static final int MAX_THREAD_NUM = 3;
+    private static final int MAX_THREAD_NUM = 4;
 
     private static GMHttpService sInstance;
 
@@ -22,8 +22,8 @@ public class GMHttpService implements GMHttpMethodExecutor{
 	private final Executor mService;
 
 	private GMHttpService() {
-		mService = Executors.newFixedThreadPool(MAX_THREAD_NUM);
-    }
+        mService = Executors.newFixedThreadPool(MAX_THREAD_NUM);
+	}
 
 	/***
 	 * Single Instance
