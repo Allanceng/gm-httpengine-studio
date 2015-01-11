@@ -108,8 +108,6 @@ public class GMHttpEngine {
             LOG.w(TAG, e.getClass().getSimpleName(), e);
             response.setRawData(null);
             response.setException(e);
-        } finally {
-            connection.disconnect();
         }
 
         return response;
