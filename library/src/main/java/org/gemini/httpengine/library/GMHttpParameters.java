@@ -32,13 +32,6 @@ public class GMHttpParameters {
         return this;
     }
 
-    public GMHttpParameters setParameter(String name, Collection collection) {
-        if (collection != null && collection.size() > 0) {
-            httpParameters.put(name, collection);
-        }
-        return this;
-    }
-
     public GMHttpParameters setParameter(String name, File value) {
         if (value != null) {
             binaryData = true;
