@@ -126,7 +126,7 @@ public class GMHttpRequest {
         return this.getRequestParser().getContentLength();
     }
 
-    public OnResponseListener getResponseListener() {
+    public OnResponseListener getOnResponseListener() {
         return onResponseListener.get();
     }
 
