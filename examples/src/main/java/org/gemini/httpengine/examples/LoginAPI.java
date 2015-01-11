@@ -33,7 +33,6 @@ public class LoginAPI {
         GMHttpParameters httpParameters = new GMHttpParameters();
         GMHttpRequest httpRequest = new GMHttpRequest();
         httpParameters.setParameter("token", token);
-        httpParameters.setParameter("face", new File("/sdcard/LocalFlowService.txt"));
         httpRequest.setUrl("http://api.qiaqia.tv/api/user/changeFace");
         httpRequest.setHttpParameters(httpParameters);
         httpRequest.setOnResponseListener(l);

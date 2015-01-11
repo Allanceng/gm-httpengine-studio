@@ -1,6 +1,8 @@
 package org.gemini.httpengine.library;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -26,6 +28,13 @@ public class GMHttpParameters {
     public GMHttpParameters setParameter(String name, String value) {
         if (value != null) {
             httpParameters.put(name, value);
+        }
+        return this;
+    }
+
+    public GMHttpParameters setParameter(String name, Collection collection) {
+        if (collection != null && collection.size() > 0) {
+            httpParameters.put(name, collection);
         }
         return this;
     }
