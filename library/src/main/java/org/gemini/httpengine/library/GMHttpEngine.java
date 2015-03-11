@@ -10,6 +10,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+
 /**
  * Kernel HTTP engine
  *
@@ -44,6 +48,15 @@ public class GMHttpEngine {
             String uri = httpRequest.getUrl();
             URL url = new URL(uri);
             connection = (HttpURLConnection) url.openConnection();
+
+            if (uri.startsWith("https")) {
+                HttpsURLConnection httpsConnection = (HttpsURLConnection) connection;
+                SSLContext sslcontext = SSLContext.getInstance("TLS");
+                sslcontext.init(null, new TrustManager[]{new GMTrustManager()}, null);
+                httpsConnection.setSSLSocketFactory(sslcontext.getSocketFactory());
+            }
+
+
             connection.setRequestMethod(method);
             if ( method.equalsIgnoreCase(HttpMethod.HTTP_POST)
               || method.equalsIgnoreCase(HttpMethod.HTTP_PUT) ) {

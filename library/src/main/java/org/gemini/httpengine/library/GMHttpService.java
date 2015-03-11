@@ -2,9 +2,6 @@ package org.gemini.httpengine.library;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public class GMHttpService implements GMHttpMethodExecutor{
 
@@ -71,7 +68,7 @@ public class GMHttpService implements GMHttpMethodExecutor{
 			if (mHttpRequest.isCancel()) {
 				return;
 			}
-			OnResponseListener l = mHttpRequest.getResponseListener();
+			OnResponseListener l = mHttpRequest.getOnResponseListener();
 			if (null != l) {
 				l.onResponse(mHttpResponse, mHttpRequest);
 			}
