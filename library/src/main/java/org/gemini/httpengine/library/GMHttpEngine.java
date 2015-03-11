@@ -36,7 +36,6 @@ public class GMHttpEngine {
     public GMHttpResponse openUrl(GMHttpRequest httpRequest) {
         GMHttpResponse response = new GMHttpResponse();
         String method = httpRequest.getMethod();
-        OnProgressUpdateListener progressListener = httpRequest.getOnProgressUpdateListener();
         Map<String, String> headers = httpRequest.getHeaders();
         Map<String, String> cookies = httpRequest.getRequestProperties();
         HttpURLConnection connection = null;
@@ -93,7 +92,7 @@ public class GMHttpEngine {
 
             connection.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
             connection.addRequestProperty("Connection", "keep-alive");
-            connection.addRequestProperty("User-Agent", "gm-httpengine v" + Config.VERSION_NAME);
+            connection.addRequestProperty("User-Agent", "gm-httpengine v" + BuildConfig.VERSION_NAME);
 
             connection.setDoInput(true);
             connection.setConnectTimeout(CONNECTION_TIME_OUT);
@@ -115,7 +114,7 @@ public class GMHttpEngine {
                 responseStream = new GZIPInputStream(responseStream);
             }
 
-            byte[] resultData = readHttpResponseAsByte(responseStream, length, progressListener);
+            byte[] resultData = readHttpResponseAsByte(responseStream, length, httpRequest);
 
             responseStream.close();
             response.setRawData(resultData);
@@ -134,13 +133,15 @@ public class GMHttpEngine {
     private ByteArrayOutputStream bufferStream = new ByteArrayOutputStream();
     private byte[] buffer = new byte[4096];
 
-    private byte[] readHttpResponseAsByte(InputStream is, int length, OnProgressUpdateListener l) throws IOException{
+    private byte[] readHttpResponseAsByte(InputStream is, int length, GMHttpRequest request) throws IOException{
         try {
             int nRead;
             int nHasRead = 0;
+            OnProgressUpdateListener l;
             while ((nRead = is.read(buffer, 0, buffer.length)) != -1) {
                 bufferStream.write(buffer, 0, nRead);
                 nHasRead += nRead;
+                l = request.getOnProgressUpdateListener();
                 if (null != l) {
                     l.onUpdate(100 * nHasRead / length, String.valueOf(nHasRead));
                 }

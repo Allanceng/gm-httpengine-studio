@@ -7,8 +7,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion '21.1.1'
+    compileSdkVersion 21
+    buildToolsVersion '21.1.2'
 
     defaultConfig {
         minSdkVersion 7
@@ -28,6 +28,10 @@ android {
             }
         }
     }
+}
+
+dependencies {
+    compile 'com.jakewharton:disklrucache:2.0.2'
 }
 
 apply from: '../maven_push.gradle'
