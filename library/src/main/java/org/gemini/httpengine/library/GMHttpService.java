@@ -22,11 +22,6 @@ public class GMHttpService implements GMHttpMethodExecutor{
         mService = Executors.newFixedThreadPool(MAX_THREAD_NUM);
 	}
 
-	/***
-	 * Single Instance
-	 * 
-	 * @return
-	 */
 	public static synchronized GMHttpService getInstance() {
 		if (sInstance == null) {
 			makeInstance();

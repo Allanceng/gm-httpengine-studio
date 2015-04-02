@@ -1,5 +1,11 @@
 apply plugin: 'maven'
 apply plugin: 'signing'
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 configurations {
     archives {
@@ -7,22 +13,76 @@ configurations {
     }
 }
 
-def sonatypeUrl = "http://maven.zjseek.com.cn/content/repositories/snapshots"
+group = 'org.geminiwen.android.httpengine'
+version = "1.9.7"
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            pom.artifactId = POM_ARTIFACT_ID
+bintray {
+    user = properties.getProperty('USER')
+    key = properties.getProperty('KEY')
 
-            repository(url: sonatypeUrl) {
-                authentication(userName: "admin", password: "seekadmin")
-            }
+    configurations = ['archives'] //When uploading configuration files
+    pkg {
+        repo = 'maven'
+        name = 'gm-httpengine'
+        desc = 'A Simple Http Client'
+        websiteUrl = "https://github.com/MyLifeForTheOrc/gm-httpengine-studio"
+        issueTrackerUrl = 'https://github.com/MyLifeForTheOrc/gm-httpengine-studio/issues'
+        vcsUrl = 'https://github.com/MyLifeForTheOrc/gm-httpengine-studio'
+        licenses = ['MIT']
+        labels = ['http']
+        publicDownloadNumbers = true
+    }
+}
 
-            pom.project {
-                name POM_NAME
-                packaging POM_PACKAGING
-                description POM_DESCRIPTION
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name 'GMHttpEngine http client for android'
+                url "https://github.com/MyLifeForTheOrc/gm-httpengine-studio"
+                licenses {
+                    license {
+                        name 'MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'geminiwen'
+                        name 'Gemini Wen'
+                        email 'geminiwen@aliyun.com'
+                    }
+                }
+                scm {
+                    connection 'https://github.com/MyLifeForTheOrc/gm-httpengine-studio.git'
+                    developerConnection 'https://github.com/MyLifeForTheOrc/gm-httpengine-studio.git'
+                    url "https://github.com/MyLifeForTheOrc/gm-httpengine-studio"
+
+                }
             }
         }
     }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+task findConventions << {
+    println project.getConvention()
 }

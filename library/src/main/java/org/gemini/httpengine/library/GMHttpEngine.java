@@ -1,5 +1,8 @@
 package org.gemini.httpengine.library;
 
+
+import org.gemini.android.httpengine.BuildConfig;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
