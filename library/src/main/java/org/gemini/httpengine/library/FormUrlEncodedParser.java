@@ -8,10 +8,12 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class FormUrlEncodedParser implements HttpRequestParser {
@@ -27,18 +29,43 @@ public class FormUrlEncodedParser implements HttpRequestParser {
             return null;
         }
         Set<String> keySet = httpParameters.getNames();
-        ArrayList<NameValuePair> nvps = new ArrayList<NameValuePair>();
+        ArrayList<NameValuePair> nvps = new ArrayList<>();
         for (String name : keySet) {
             Object value = httpParameters.getParameter(name);
-            if (!(value instanceof File)) {
-                if (value == null) {
-                    continue;
-                }
-                NameValuePair p = new BasicNameValuePair(name, value.toString());
-                nvps.add(p);
-            } else {
+
+            if (value == null) {
+                continue;
+            }
+
+            if (value instanceof File) {
                 throw new GMHttpException("FormUrlEncoding cannot have file part");
             }
+
+            if (value instanceof List) {
+                List l = (List)value;
+                String n = name + "[]";
+                for (Object v : l) {
+                    if (v == null) {
+                        continue;
+                    }
+                    NameValuePair p = new BasicNameValuePair(n, value.toString());
+                    nvps.add(p);
+                }
+            } else if (value.getClass().isArray()) {
+                Object[] l = (Object []) value;
+                String n = name + "[]";
+                for (Object v : l) {
+                    if (v == null) {
+                        continue;
+                    }
+                    NameValuePair p = new BasicNameValuePair(n, value.toString());
+                    nvps.add(p);
+                }
+            } else {
+                NameValuePair p = new BasicNameValuePair(name, value.toString());
+                nvps.add(p);
+            }
+
         }
         HttpEntity entity = new UrlEncodedFormEntity(nvps, mEncodingString);
         InputStream is = entity.getContent();
