@@ -25,20 +25,16 @@ public class GMHttpParameters {
         return httpParameters.get(name);
 	}
 
-    public GMHttpParameters setParameter(String name, String value) {
+    public GMHttpParameters setParameter(String name, Object value) {
         if (value != null) {
+            if (value instanceof File) {
+                binaryData = true;
+            }
             httpParameters.put(name, value);
         }
         return this;
     }
 
-    public GMHttpParameters setParameter(String name, File value) {
-        if (value != null) {
-            binaryData = true;
-            httpParameters.put(name, value);
-        }
-        return this;
-    }
 
     public boolean isBinaryContent() {
         return this.binaryData;

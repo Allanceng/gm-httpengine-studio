@@ -34,7 +34,8 @@ public class MainActivity extends Activity implements View.OnClickListener,OnRes
     @Override
     public void onClick(View v) {
         if(v == mTestButton) {
-            mLoginAPI.login(null, null, this);
+            mLoginAPI.testArray();
+            mLoginAPI.testList();
         }
     }
 

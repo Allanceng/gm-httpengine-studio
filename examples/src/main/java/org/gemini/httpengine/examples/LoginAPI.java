@@ -9,6 +9,7 @@ import org.gemini.httpengine.library.HttpMethod;
 import org.gemini.httpengine.library.OnResponseListener;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by geminiwen on 14-3-25.
@@ -29,14 +30,28 @@ public class LoginAPI {
         mService.executeHttpMethod(httpRequest);
     }
 
-    public void uploadImages(String token, OnResponseListener l) {
+    public void testArray() {
         GMHttpParameters httpParameters = new GMHttpParameters();
         GMHttpRequest httpRequest = new GMHttpRequest();
-        httpParameters.setParameter("token", token);
-        httpRequest.setUrl("http://api.qiaqia.tv/api/user/changeFace");
+        httpParameters.setParameter("username", "hello");
+        httpParameters.setParameter("ids", new int[]{1, 2, 3, 4});
+        httpRequest.setUrl("http://www.baidu.com/");
         httpRequest.setHttpParameters(httpParameters);
-        httpRequest.setOnResponseListener(l);
-        httpRequest.setMethod(HttpMethod.HTTP_POST);
+        mService.executeHttpMethod(httpRequest);
+    }
+
+    public void testList() {
+        ArrayList<Integer> list = new ArrayList();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        GMHttpParameters httpParameters = new GMHttpParameters();
+        GMHttpRequest httpRequest = new GMHttpRequest();
+        httpParameters.setParameter("username", "hello");
+        httpParameters.setParameter("ids", list);
+        httpRequest.setUrl("http://www.baidu.com/");
+        httpRequest.setHttpParameters(httpParameters);
         mService.executeHttpMethod(httpRequest);
     }
 }

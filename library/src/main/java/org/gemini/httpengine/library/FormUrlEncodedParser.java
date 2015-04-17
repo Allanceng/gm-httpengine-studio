@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -48,17 +49,18 @@ public class FormUrlEncodedParser implements HttpRequestParser {
                     if (v == null) {
                         continue;
                     }
-                    NameValuePair p = new BasicNameValuePair(n, value.toString());
+                    NameValuePair p = new BasicNameValuePair(n, v.toString());
                     nvps.add(p);
                 }
             } else if (value.getClass().isArray()) {
-                Object[] l = (Object []) value;
+                int length = Array.getLength(value);
                 String n = name + "[]";
-                for (Object v : l) {
+                for (int i = 0; i < length; i ++) {
+                    Object v = Array.get(value, i);
                     if (v == null) {
                         continue;
                     }
-                    NameValuePair p = new BasicNameValuePair(n, value.toString());
+                    NameValuePair p = new BasicNameValuePair(n, String.valueOf(v));
                     nvps.add(p);
                 }
             } else {
