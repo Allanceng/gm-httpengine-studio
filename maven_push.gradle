@@ -14,7 +14,7 @@ configurations {
 }
 
 group = 'org.geminiwen.android.httpengine'
-version = "1.9.7"
+version = "1.10.0"
 
 bintray {
     user = properties.getProperty('USER')
