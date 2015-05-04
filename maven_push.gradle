@@ -4,9 +4,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 configurations {
     archives {
         extendsFrom configurations.default
@@ -17,8 +14,8 @@ group = 'org.geminiwen.android.httpengine'
 version = "1.10.0"
 
 bintray {
-    user = properties.getProperty('USER')
-    key = properties.getProperty('KEY')
+    user = hasProperty('USER')? USER : ""
+    key = hasProperty('KEY')? KEY: ""
 
     configurations = ['archives'] //When uploading configuration files
     pkg {
