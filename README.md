@@ -1,4 +1,5 @@
 # GMHttpEngine
+[![Build Status](https://travis-ci.org/MyLifeForTheOrc/gm-httpengine-studio.svg?branch=master)](https://travis-ci.org/MyLifeForTheOrc/gm-httpengine-studio)
 
 Build On Android Studio with Gradle
 
