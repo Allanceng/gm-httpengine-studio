@@ -36,7 +36,7 @@ public class TestRequestParser extends InstrumentationTestCase{
         GMHttpParameters httpParameters = null;
         GMHttpRequest request = new GMHttpRequest();
         String url = null,resultUrl = null;
-        Method method = request.getClass().getDeclaredMethod("replaceRegexForREST");
+        Method method = request.getClass().getDeclaredMethod("replaceRegexForRESTUri");
         method.setAccessible(true);
 
         httpParameters = new GMHttpParameters();
