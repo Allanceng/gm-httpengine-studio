@@ -9,30 +9,20 @@ import android.util.Log;
  * 
  */
 public class LOG {
-	public static final boolean DEBUG = false;
-	public static final int LEVEL_VERBOSE = Log.VERBOSE;
-	public static final int LEVEL_DEBUG = Log.DEBUG;
-	public static final int LEVEL_INFO = Log.INFO;
-	public static final int LEVEL_WARN = Log.WARN;
-	public static final int LEVEL_ERROR = Log.ERROR;
+	public static boolean DEBUG = false;
 
-	private static int level = LEVEL_VERBOSE;
-
-	public static void setLevel(int level) {
-		LOG.level = level;
-		if (!DEBUG) {
-			LOG.level = LEVEL_ERROR + 1;
-		}
+	public static void setDebug(boolean debug) {
+		LOG.DEBUG = debug;
 	}
 
 	public static void v(String tag, String msg) {
-		if (level <= LEVEL_VERBOSE) {
+		if (DEBUG) {
 			Log.v(tag, msg);
 		}
 	}
 
 	public static void d(String tag, String msg, Throwable t) {
-		if (level <= LEVEL_DEBUG) {
+		if (DEBUG) {
 			Log.d(tag, msg, t);
 		}
 	}
@@ -42,7 +32,7 @@ public class LOG {
 	}
 
 	public static void i(String tag, String msg, Throwable t) {
-		if (level <= LEVEL_INFO) {
+		if (DEBUG) {
 			Log.i(tag, msg, t);
 		}
 	}
@@ -52,7 +42,7 @@ public class LOG {
 	}
 
 	public static void w(String tag, String msg, Throwable t) {
-		if (level <= LEVEL_WARN) {
+		if (DEBUG) {
 			Log.w(tag, msg, t);
 		}
 	}
@@ -62,7 +52,7 @@ public class LOG {
 	}
 
 	public static void e(String tag, String msg, Throwable t) {
-		if (level <= LEVEL_ERROR) {
+		if (DEBUG) {
 			Log.e(tag, msg, t);
 		}
 	}
