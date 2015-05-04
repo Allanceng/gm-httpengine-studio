@@ -13,7 +13,6 @@ proguard-project.txt
 
 # Gradle
 .gradle
-gradle
 build
 local.properties
 
