@@ -46,10 +46,10 @@ public class GMHttpRequest {
     }
 
     public String getUrl() throws IOException {
-        String url = this.url;
         if(Config.enableRESTfulSupport) {
             this.replaceRegexForRESTUri();
         }
+        String url = this.url;
         if (method.equalsIgnoreCase(HttpMethod.HTTP_GET)  ||
             method.equalsIgnoreCase(HttpMethod.HTTP_DELETE)) {
             FormUrlEncodedParser parser = new FormUrlEncodedParser();
