@@ -3,11 +3,11 @@ package org.gemini.httpengine.library;
 public interface OnResponseListener {
 
 	/***
-	 * call back when response reached <br/>
+	 * call back when response reached <br>
 	 * <strong> WARNING!!! the thread called is not indicated </strong>
 	 * 
-	 * @param response
-	 * @param request
+	 * @param response the response
+	 * @param request the request
 	 */
-	public void onResponse(GMHttpResponse response, GMHttpRequest request);
+	void onResponse(GMHttpResponse response, GMHttpRequest request);
 }

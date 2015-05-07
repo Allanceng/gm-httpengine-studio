@@ -1,8 +1,6 @@
 package org.gemini.httpengine.library;
 
 
-import org.gemini.android.httpengine.BuildConfig;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -108,7 +106,7 @@ public class GMHttpEngine {
 
             connection.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
             connection.addRequestProperty("Connection", "keep-alive");
-            connection.addRequestProperty("User-Agent", "gm-httpengine v" + BuildConfig.VERSION_NAME);
+            connection.addRequestProperty("User-Agent", "gm-httpengine v" + Config.VERSION_NAME);
 
             connection.setDoInput(true);
             connection.setConnectTimeout(CONNECTION_TIME_OUT);
