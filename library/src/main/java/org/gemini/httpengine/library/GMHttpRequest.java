@@ -166,11 +166,11 @@ public class GMHttpRequest {
         return this.headers;
     }
 
-    public void addRequestProperty(String key, String value) {
+    public void addCookie(String key, String value) {
         this.cookies.put(key, value);
     }
 
-    public Map<String, String> getRequestProperties() {
+    public Map<String, String> getCookies() {
         return this.cookies;
     }
 

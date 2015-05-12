@@ -15,6 +15,9 @@ import org.gemini.httpengine.library.GMHttpResponse;
 import org.gemini.httpengine.library.GMHttpService;
 import org.gemini.httpengine.library.OnResponseListener;
 
+import java.util.List;
+import java.util.Map;
+
 
 public class MainActivity extends Activity implements View.OnClickListener,OnResponseListener{
 
@@ -34,19 +37,18 @@ public class MainActivity extends Activity implements View.OnClickListener,OnRes
     @Override
     public void onClick(View v) {
         if(v == mTestButton) {
-            mLoginAPI.testArray();
-            mLoginAPI.testList();
+            mLoginAPI.cookie(this);
         }
     }
 
     @Override
     public void onResponse(GMHttpResponse response, GMHttpRequest request) {
-        String result = null;
+        byte[] result = null;
         try {
-            result = response.parseAsString();
-            Log.d("test", result);
+            result = response.getRawData();
+            Map<String, String> cookies = response.getCookies();
         } catch (Exception e) {
-            result = "no content";
+            Log.e("error", "wtf?", e);
         }
 
 //        Toast.makeText(this,result,Toast.LENGTH_LONG).show();

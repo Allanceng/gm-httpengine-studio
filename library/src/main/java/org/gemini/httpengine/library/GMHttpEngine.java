@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
@@ -42,7 +43,7 @@ public class GMHttpEngine {
         GMHttpResponse response = new GMHttpResponse();
         String method = httpRequest.getMethod();
         Map<String, String> headers = httpRequest.getHeaders();
-        Map<String, String> cookies = httpRequest.getRequestProperties();
+        Map<String, String> cookies = httpRequest.getCookies();
         HttpURLConnection connection = null;
         byte[] httpEntity = null;
         try {
@@ -129,9 +130,12 @@ public class GMHttpEngine {
             }
 
             byte[] resultData = readHttpResponseAsByte(responseStream, length, httpRequest);
+            Map<String, List<String>> responseHeader = connection.getHeaderFields();
+            List<String> setCookies = responseHeader.get("Set-Cookie");
 
             responseStream.close();
             response.setRawData(resultData);
+            response.parseCookies(setCookies);
 
         } catch (Exception e) {
             LOG.w(TAG, e.getClass().getSimpleName(), e);

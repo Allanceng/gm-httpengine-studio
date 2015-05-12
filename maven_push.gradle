@@ -11,11 +11,14 @@ configurations {
 }
 
 group = 'org.geminiwen.android.httpengine'
-version = "1.10.1"
+version = "1.11.0"
+
+def USER = hasProperty('user') ? property('user').toString() : ""
+def KEY = hasProperty('key') ? property('key').toString() : ""
 
 bintray {
-    user = property('user').toString()
-    key = property('key').toString()
+    user = USER
+    key = KEY
 
     configurations = ['archives'] //When uploading configuration files
     pkg {

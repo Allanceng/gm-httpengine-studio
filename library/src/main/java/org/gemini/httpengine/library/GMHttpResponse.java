@@ -1,6 +1,11 @@
 package org.gemini.httpengine.library;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +22,7 @@ public class GMHttpResponse {
     private int httpStatusCode;
 	private HttpResponseParser<?> responseParser;
     private Exception exception;
+    private Map<String, String> cookies;
 
 	private boolean isFail = false;
 
@@ -24,11 +30,28 @@ public class GMHttpResponse {
         if (data != null) {
             this.rawData = data;
         } else {
-            isFail = true;
+            this.isFail = true;
         }
     }
 
-	public byte[] getRawData() {
+    public void parseCookies(List<String> cookies) {
+        this.cookies = new HashMap<>();
+        List<String> sortList = new ArrayList<>();
+        for(String data: cookies) {
+            String[] properties = data.split("; ");
+            sortList.addAll(Arrays.asList(properties));
+        }
+        for (String data: sortList) {
+            String[] properties = data.split("=");
+            this.cookies.put(properties[0], properties[1]);
+        }
+    }
+
+    public Map<String, String> getCookies() {
+        return cookies;
+    }
+
+    public byte[] getRawData() {
 		this.filterException();
 		return this.rawData;
 	}

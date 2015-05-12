@@ -9,6 +9,6 @@ public class Config {
      */
     public static boolean enableRESTfulSupport = true;
 
-    public static final String VERSION_NAME = "1.10.1";
+    public static final String VERSION_NAME = "1.11.0";
 
 }

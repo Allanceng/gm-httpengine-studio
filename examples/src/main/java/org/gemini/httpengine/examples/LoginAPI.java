@@ -30,6 +30,26 @@ public class LoginAPI {
         mService.executeHttpMethod(httpRequest);
     }
 
+    public void cookie(OnResponseListener l) {
+        GMHttpParameters httpParameters = new GMHttpParameters();
+        GMHttpRequest httpRequest = new GMHttpRequest();
+        httpRequest.setUrl("https://www.baidu.com");
+        httpRequest.setHttpParameters(httpParameters);
+        httpRequest.setMethod(HttpMethod.HTTP_GET);
+        httpRequest.setOnResponseListener(l);
+        mService.executeHttpMethod(httpRequest);
+    }
+
+    public void image(OnResponseListener l) {
+        GMHttpParameters httpParameters = new GMHttpParameters();
+        GMHttpRequest httpRequest = new GMHttpRequest();
+        httpRequest.setUrl("http://dayi.im/api/app/teacher/generate_auth_code/");
+        httpRequest.setHttpParameters(httpParameters);
+        httpRequest.setMethod(HttpMethod.HTTP_GET);
+        httpRequest.setOnResponseListener(l);
+        mService.executeHttpMethod(httpRequest);
+    }
+
     public void testArray() {
         GMHttpParameters httpParameters = new GMHttpParameters();
         GMHttpRequest httpRequest = new GMHttpRequest();
