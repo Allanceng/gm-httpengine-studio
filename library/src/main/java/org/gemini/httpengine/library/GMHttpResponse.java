@@ -43,6 +43,9 @@ public class GMHttpResponse {
         }
         for (String data: sortList) {
             String[] properties = data.split("=");
+            if (properties.length < 2) {
+                continue;
+            }
             this.cookies.put(properties[0], properties[1]);
         }
     }

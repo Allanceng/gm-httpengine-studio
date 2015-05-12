@@ -37,7 +37,7 @@ public class MainActivity extends Activity implements View.OnClickListener,OnRes
     @Override
     public void onClick(View v) {
         if(v == mTestButton) {
-            mLoginAPI.cookie(this);
+            mLoginAPI.image(this);
         }
     }
 
