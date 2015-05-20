@@ -23,21 +23,21 @@ public class LoginAPI {
 
     public void login(String username,String password,OnResponseListener l) {
         GMHttpParameters httpParameters = new GMHttpParameters();
-        GMHttpRequest httpRequest = new GMHttpRequest();
-        httpRequest.setUrl("http://www.baidu.com/s?wd=%E6%9D%9C%E7%91%9E%E9%9B%AA");
-        httpRequest.setHttpParameters(httpParameters);
-        httpRequest.setOnResponseListener(l);
-        mService.executeHttpMethod(httpRequest);
+        GMHttpRequest.Builder builder = new GMHttpRequest.Builder();
+        builder.setUrl("http://www.baidu.com/s?wd=%E6%9D%9C%E7%91%9E%E9%9B%AA");
+        builder.setHttpParameters(httpParameters);
+        builder.setOnResponseListener(l);
+        mService.executeHttpMethod(builder.build());
     }
 
     public void cookie(OnResponseListener l) {
         GMHttpParameters httpParameters = new GMHttpParameters();
-        GMHttpRequest httpRequest = new GMHttpRequest();
-        httpRequest.setUrl("https://www.baidu.com");
-        httpRequest.setHttpParameters(httpParameters);
-        httpRequest.setMethod(HttpMethod.HTTP_GET);
-        httpRequest.setOnResponseListener(l);
-        mService.executeHttpMethod(httpRequest);
+        GMHttpRequest.Builder builder = new GMHttpRequest.Builder();
+        builder.setUrl("https://www.baidu.com");
+        builder.setHttpParameters(httpParameters);
+        builder.setMethod(HttpMethod.HTTP_GET);
+        builder.setOnResponseListener(l);
+        mService.executeHttpMethod(builder.build());
     }
 
     public void image(OnResponseListener l) {
