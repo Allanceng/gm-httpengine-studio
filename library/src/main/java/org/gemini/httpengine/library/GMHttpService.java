@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 public class GMHttpService implements GMHttpMethodExecutor{
 
 	public static final String TAG = GMHttpService.class.getSimpleName();
-	public static final String VERSION = Config.VERSION_NAME;
+	public static final String VERSION = GMConfig.VERSION_NAME;
     private static final int MAX_THREAD_NUM = 4;
 
     private static GMHttpService sInstance;

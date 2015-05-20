@@ -24,13 +24,14 @@ import javax.net.ssl.TrustManager;
 public class GMHttpEngine {
     public static String TAG = GMHttpEngine.class.getSimpleName();
 
-    public static final int CONNECTION_TIME_OUT = 30000;
-    public static final int READ_TIME_OUT = 30000;
+    private int connectionTimeout;
+    private int readTimeout;
     private static final String SET_COOKIE_SEPARATOR = "; ";
-    private static final String COOKIE = "Cookie";
 
     public GMHttpEngine() {
         HttpURLConnection.setFollowRedirects(true);
+        connectionTimeout = GMConfig.TIMEOUT;
+        readTimeout = GMConfig.TIMEOUT;
     }
 
     /**
@@ -74,7 +75,6 @@ public class GMHttpEngine {
                     connection.addRequestProperty("Content-Length", String.valueOf(contentLength));
                 }
 
-
             }
             LOG.d(TAG, uri);
 
@@ -107,11 +107,11 @@ public class GMHttpEngine {
 
             connection.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
             connection.addRequestProperty("Connection", "keep-alive");
-            connection.addRequestProperty("User-Agent", "gm-httpengine v" + Config.VERSION_NAME);
+            connection.addRequestProperty("User-Agent", "gm-httpengine v" + GMConfig.VERSION_NAME);
 
             connection.setDoInput(true);
-            connection.setConnectTimeout(CONNECTION_TIME_OUT);
-            connection.setReadTimeout(READ_TIME_OUT);
+            connection.setConnectTimeout(connectionTimeout);
+            connection.setReadTimeout(readTimeout);
             if (httpEntity != null) {
                 connection.setDoOutput(true);
                 OutputStream httpBodyStream = connection.getOutputStream();

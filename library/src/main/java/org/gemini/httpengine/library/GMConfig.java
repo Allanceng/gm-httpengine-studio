@@ -3,12 +3,14 @@ package org.gemini.httpengine.library;
 /**
  * Created by geminiwen on 14-3-23.
  */
-public class Config {
+public class GMConfig {
     /***
      * Indicate if it is RESTful style
      */
     public static boolean enableRESTfulSupport = true;
 
-    public static final String VERSION_NAME = "1.11.1";
+    public static final String VERSION_NAME = "1.12";
+
+    public static int TIMEOUT = 30;
 
 }

@@ -1,5 +1,7 @@
 package org.gemini.httpengine.library;
 
+import android.text.TextUtils;
+
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -29,34 +31,22 @@ public class GMHttpRequest {
     private WeakReference<OnResponseListener> onResponseListener = new WeakReference<OnResponseListener>(null);
     private OnProgressUpdateListener onProgressUpdateListener;
     private HttpRequestParser requestParser;
-    private GMModelParser modelParser;
 
-    public GMHttpRequest() {
+    private FormUrlEncodedParser formUrlEncodedParser = new FormUrlEncodedParser();
+
+    private GMHttpRequest() {
         this.isCanceled = false;
-        this.headers = new HashMap<String, String>();
-        this.cookies = new HashMap<String, String>();
-        this.method = HttpMethod.HTTP_GET;
-        this.modelParser = new GMModelParser();
-    }
-
-    public GMHttpRequest(String url, GMHttpParameters httpParameters) {
-        this();
-        this.url = url;
-        this.httpParameters = httpParameters;
     }
 
     public String getUrl() throws IOException {
-        if(Config.enableRESTfulSupport) {
+        if(GMConfig.enableRESTfulSupport) {
             this.replaceRegexForRESTUri();
         }
         String url = this.url;
-        if (method.equalsIgnoreCase(HttpMethod.HTTP_GET)  ||
-            method.equalsIgnoreCase(HttpMethod.HTTP_DELETE)) {
-            FormUrlEncodedParser parser = new FormUrlEncodedParser();
-            byte[] data = parser.parse(httpParameters);
-            if (null != data) {
-                url += "?" + new String(data);
-            }
+
+        byte[] data = formUrlEncodedParser.parse(httpParameters);
+        if (null != data) {
+            url += "?" + new String(data);
         }
         return url;
     }
@@ -99,11 +89,6 @@ public class GMHttpRequest {
 
     public void setHttpParameters(GMHttpParameters httpParameters) {
         this.httpParameters = httpParameters;
-        if (httpParameters.isBinaryContent()) {
-            this.requestParser = new MultiPartParser();
-        } else {
-            this.requestParser = new FormUrlEncodedParser();
-        }
     }
 
     public GMHttpParameters getHttpParameters() {
@@ -131,7 +116,7 @@ public class GMHttpRequest {
     }
 
     public void setOnResponseListener(OnResponseListener responseListener) {
-        this.onResponseListener = new WeakReference<OnResponseListener>(responseListener);
+        this.onResponseListener = new WeakReference<>(responseListener);
     }
 
     public OnProgressUpdateListener getOnProgressUpdateListener() {
@@ -154,27 +139,23 @@ public class GMHttpRequest {
         return this.requestParser.parse(httpParameters);
     }
 
-    public void addHeader(String key, String value) {
-        this.headers.put(key, value);
-    }
-
-    public String getHeader(String key) {
-        return this.headers.get(key);
+    public void setHeaders(Map<String, String> headers) {
+        this.headers = headers;
     }
 
     public Map<String, String> getHeaders() {
         return this.headers;
     }
 
-    public void addCookie(String key, String value) {
-        this.cookies.put(key, value);
+    public void setCookies(Map<String, String> cookies) {
+        this.cookies = cookies;
     }
 
     public Map<String, String> getCookies() {
         return this.cookies;
     }
 
-    public String getRequestProperty(String key) {
+    public String getCookie(String key) {
         return this.cookies.get(key);
     }
 
@@ -186,9 +167,104 @@ public class GMHttpRequest {
         return this.isCanceled;
     }
 
-    public void parseParametersFromModel(Object requestModel) {
-        GMHttpParameters httpParameters = this.modelParser.parseModel(requestModel);
-        this.setHttpParameters(httpParameters);
-    }
+    public static class Builder {
+        private GMHttpParameters httpParameters;
+        private OnResponseListener responseListener;
+        private String url;
+        private String taskId;
+        private HttpRequestParser requestParser;
+        private String method;
+        private Map<String, String> headers;
+        private Map<String, String> cookies;
+        private Map<String, Object> userData;
+        private OnProgressUpdateListener progressUpdateListener;
 
+        public Builder setHttpParameters(GMHttpParameters params) {
+            this.httpParameters = params;
+            return this;
+        }
+
+        public Builder setResponseListener(OnResponseListener l) {
+            this.responseListener = l;
+            return this;
+        }
+
+        public Builder setUrl(String url) {
+            this.url = url;
+            return this;
+        }
+
+        public Builder setTaskId(String taskId) {
+            this.taskId = taskId;
+            return this;
+        }
+
+        public Builder setRequestParser(HttpRequestParser requestParser) {
+            this.requestParser = requestParser;
+            return this;
+        }
+
+        public Builder setMethod(String method) {
+            this.method = method;
+            return this;
+        }
+
+        public Builder addHeader(String name, String value) {
+            if (this.headers == null) {
+                this.headers = new HashMap<>();
+            }
+            this.headers.put(name, value);
+            return this;
+        }
+
+        public Builder addCookies(String name, String value) {
+            if (this.cookies == null) {
+                this.cookies = new HashMap<>();
+            }
+            this.cookies.put(name, value);
+            return this;
+        }
+
+        public Builder setHeader(Map<String, String> headers) {
+            this.headers = headers;
+            return this;
+        }
+
+        public Builder setCookies(Map<String, String> cookies) {
+            this.cookies = cookies;
+            return this;
+        }
+
+        public Builder setUserData(Map<String, Object> userData) {
+            this.userData = userData;
+            return this;
+        }
+
+        public Builder setOnProgressUpdateListener(OnProgressUpdateListener l) {
+            this.progressUpdateListener = l;
+            return this;
+        }
+
+        public GMHttpRequest build() {
+            GMHttpRequest httpRequest = new GMHttpRequest();
+
+            this.method = TextUtils.isEmpty(this.method) ? HttpMethod.HTTP_GET : this.method;
+            this.httpParameters = this.httpParameters == null ? new GMHttpParameters() : this.httpParameters;
+            this.url = TextUtils.isEmpty(this.url) ? "" : this.url;
+            this.requestParser = this.requestParser == null ? (this.httpParameters.isBinaryContent() ? new MultiPartParser() : new FormUrlEncodedParser())
+                                                              : this.requestParser;
+            httpRequest.setMethod(this.method);
+            httpRequest.setTaskId(this.taskId);
+            httpRequest.setOnResponseListener(this.responseListener);
+            httpRequest.setUserData(this.userData);
+            httpRequest.setCookies(this.cookies);
+            httpRequest.setHeaders(this.headers);
+            httpRequest.setOnProgressUpdateListener(this.progressUpdateListener);
+            httpRequest.setRequestParser(this.requestParser);
+            httpRequest.setUrl(this.url);
+            httpRequest.setHttpParameters(this.httpParameters);
+
+            return httpRequest;
+        };
+    };
 }
