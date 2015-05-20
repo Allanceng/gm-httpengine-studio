@@ -184,7 +184,7 @@ public class GMHttpRequest {
             return this;
         }
 
-        public Builder setResponseListener(OnResponseListener l) {
+        public Builder setOnResponseListener(OnResponseListener l) {
             this.responseListener = l;
             return this;
         }

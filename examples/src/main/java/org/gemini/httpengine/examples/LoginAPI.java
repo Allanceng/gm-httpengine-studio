@@ -42,36 +42,23 @@ public class LoginAPI {
 
     public void image(OnResponseListener l) {
         GMHttpParameters httpParameters = new GMHttpParameters();
-        GMHttpRequest httpRequest = new GMHttpRequest();
-        httpRequest.setUrl("http://dayi.im/api/app/teacher/generate_auth_code/");
-        httpRequest.setHttpParameters(httpParameters);
-        httpRequest.setMethod(HttpMethod.HTTP_GET);
-        httpRequest.setOnResponseListener(l);
-        mService.executeHttpMethod(httpRequest);
+        GMHttpRequest.Builder builder = new GMHttpRequest.Builder();
+        builder.setUrl("http://dayi.im/api/app/teacher/generate_auth_code/");
+        builder.setHttpParameters(httpParameters);
+        builder.setMethod(HttpMethod.HTTP_GET);
+        builder.setOnResponseListener(l);
+        mService.executeHttpMethod(builder.build());
     }
 
     public void testArray() {
         GMHttpParameters httpParameters = new GMHttpParameters();
-        GMHttpRequest httpRequest = new GMHttpRequest();
+        GMHttpRequest.Builder builder = new GMHttpRequest.Builder();
         httpParameters.setParameter("username", "hello");
         httpParameters.setParameter("ids", new int[]{1, 2, 3, 4});
-        httpRequest.setUrl("http://www.baidu.com/");
-        httpRequest.setHttpParameters(httpParameters);
-        mService.executeHttpMethod(httpRequest);
+
+        builder.setUrl("http://www.baidu.com/")
+               .setHttpParameters(httpParameters);
+        mService.executeHttpMethod(builder.build());
     }
 
-    public void testList() {
-        ArrayList<Integer> list = new ArrayList();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        list.add(4);
-        GMHttpParameters httpParameters = new GMHttpParameters();
-        GMHttpRequest httpRequest = new GMHttpRequest();
-        httpParameters.setParameter("username", "hello");
-        httpParameters.setParameter("ids", list);
-        httpRequest.setUrl("http://www.baidu.com/");
-        httpRequest.setHttpParameters(httpParameters);
-        mService.executeHttpMethod(httpRequest);
-    }
 }
