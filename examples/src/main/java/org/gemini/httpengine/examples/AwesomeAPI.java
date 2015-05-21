@@ -1,5 +1,7 @@
 package org.gemini.httpengine.examples;
 
+import org.gemini.httpengine.annotation.GET;
+import org.gemini.httpengine.annotation.Name;
 import org.gemini.httpengine.annotation.Path;
 import org.gemini.httpengine.annotation.TaskId;
 import org.gemini.httpengine.library.OnResponseListener;
@@ -16,7 +18,8 @@ public interface AwesomeAPI {
 
     @Path("http://www.baidu.com")
     @TaskId(TASKID.TASK_GET_LOGIN)
+    @GET
     void doSomethingAwesome(OnResponseListener l,
-                            String papatuo,
-                            List<String> nickname);
+                            @Name("woshipapatuo") String papatuo,
+                            @Name("nicknames") List<String> nickname);
 }
