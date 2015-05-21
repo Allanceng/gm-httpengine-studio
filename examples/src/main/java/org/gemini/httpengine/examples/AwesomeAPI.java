@@ -4,6 +4,8 @@ import org.gemini.httpengine.annotation.Path;
 import org.gemini.httpengine.annotation.TaskId;
 import org.gemini.httpengine.library.OnResponseListener;
 
+import java.util.List;
+
 /**
  * Created by geminiwen on 15/5/21.
  */
@@ -16,5 +18,5 @@ public interface AwesomeAPI {
     @TaskId(TASKID.TASK_GET_LOGIN)
     void doSomethingAwesome(OnResponseListener l,
                             String papatuo,
-                            String nickname);
+                            List<String> nickname);
 }

@@ -16,6 +16,7 @@ import org.gemini.httpengine.library.GMHttpResponse;
 import org.gemini.httpengine.library.GMHttpService;
 import org.gemini.httpengine.library.OnResponseListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,9 @@ public class MainActivity extends Activity implements View.OnClickListener,OnRes
     public void onClick(View v) {
         if(v == mTestButton) {
             AwesomeAPI api = InjectFactory.inject(AwesomeAPI.class);
-            api.doSomethingAwesome(this, "papatuo", "nickname");
+            List<String> test = new ArrayList<>();
+            test.add("nickname");
+            api.doSomethingAwesome(this, "papatuo", test);
         }
     }
 

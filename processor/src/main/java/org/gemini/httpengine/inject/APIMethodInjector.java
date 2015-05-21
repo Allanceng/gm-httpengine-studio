@@ -1,13 +1,16 @@
 package org.gemini.httpengine.inject;
 
 import org.gemini.httpengine.annotation.GET;
+import org.gemini.httpengine.annotation.Name;
 import org.gemini.httpengine.annotation.POST;
 import org.gemini.httpengine.annotation.Path;
 import org.gemini.httpengine.annotation.TaskId;
 
 import java.lang.reflect.Type;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.lang.model.element.ExecutableElement;
@@ -66,7 +69,7 @@ public class APIMethodInjector {
         TypeKind returnTypeKind = returnType.getKind();
 
         String responseListenerName = null;
-        Set<String> parametersName = new LinkedHashSet<>();
+        Map<String, String> parameterNameMap = new LinkedHashMap<>();
 
         switch (returnTypeKind) {
             case VOID: {
@@ -89,7 +92,12 @@ public class APIMethodInjector {
             if (typeName.equals(RESPONSE_LISETENER)) {
                 responseListenerName = variableName;
             } else {
-                parametersName.add(variableName);
+                Name nameAnnotation = variableElement.getAnnotation(Name.class);
+                String parameterName = variableName;
+                if (nameAnnotation != null) {
+                    parameterName = nameAnnotation.value();
+                }
+                parameterNameMap.put(parameterName, variableName);
             }
             if (!isFirst) {
                 sb.append(", ");
@@ -104,24 +112,29 @@ public class APIMethodInjector {
         }
 
         sb.append(") {\n");
-        sb.append(buildFunctionBody(parametersName, responseListenerName));
+        sb.append(buildFunctionBody(parameterNameMap, responseListenerName));
         sb.append("}\n");
 
         return sb.toString();
     }
 
-    private String buildFunctionBody(Set<String> parameters, String responseListenerName) {
+    private String buildFunctionBody(Map<String, String> parameters, String responseListenerName) {
         StringBuilder sb = new StringBuilder();
-        for(String name : parameters) {
+        for (Map.Entry<String, String> parameter: parameters.entrySet()) {
+            String name = parameter.getKey();
+
             sb.append(" final String FIELD_" + name.toUpperCase() + " = \"");
             sb.append(name);
             sb.append("\";\n");
         }
 
         sb.append("GMHttpParameters httpParameter = new GMHttpParameters();\n");
-        for(String name : parameters) {
-            sb.append("httpParameter.setParameter(FIELD_" + name.toUpperCase() + ",");
-            sb.append(name + ");\n");
+        for (Map.Entry<String, String> parameter: parameters.entrySet()) {
+            String parameterName = parameter.getKey();
+            String variableName = parameter.getValue();
+
+            sb.append("httpParameter.setParameter(FIELD_" + parameterName.toUpperCase() + ", ");
+            sb.append(variableName + ");\n");
         }
 
         sb.append("GMHttpRequest.Builder builder = new GMHttpRequest.Builder();\n");
