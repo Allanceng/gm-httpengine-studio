@@ -33,7 +33,6 @@ public class GMHttpService implements GMHttpMethodExecutor{
         sInstance = new GMHttpService();
 	}
 
-
 	private class HttpRunnable implements Runnable {
 
 		private GMHttpRequest mHttpRequest;

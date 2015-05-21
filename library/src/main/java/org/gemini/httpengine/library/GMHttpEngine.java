@@ -30,8 +30,8 @@ public class GMHttpEngine {
 
     public GMHttpEngine() {
         HttpURLConnection.setFollowRedirects(true);
-        connectionTimeout = GMConfig.TIMEOUT;
-        readTimeout = GMConfig.TIMEOUT;
+        connectionTimeout = GMConfig.TIMEOUT * 1000;
+        readTimeout = GMConfig.TIMEOUT * 1000;
     }
 
     /**

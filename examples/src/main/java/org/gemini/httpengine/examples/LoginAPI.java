@@ -1,15 +1,11 @@
 package org.gemini.httpengine.examples;
 
-import android.content.res.AssetManager;
-
+import org.gemini.httpengine.annotation.Path;
 import org.gemini.httpengine.library.GMHttpParameters;
 import org.gemini.httpengine.library.GMHttpRequest;
 import org.gemini.httpengine.library.GMHttpService;
 import org.gemini.httpengine.library.HttpMethod;
 import org.gemini.httpengine.library.OnResponseListener;
-
-import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Created by geminiwen on 14-3-25.
@@ -40,7 +36,7 @@ public class LoginAPI {
         mService.executeHttpMethod(builder.build());
     }
 
-    public void image(OnResponseListener l) {
+    public void image(OnResponseListener l, String image) {
         GMHttpParameters httpParameters = new GMHttpParameters();
         GMHttpRequest.Builder builder = new GMHttpRequest.Builder();
         builder.setUrl("http://dayi.im/api/app/teacher/generate_auth_code/");

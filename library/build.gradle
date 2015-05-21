@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'android-apt'
 apply plugin: 'maven'
 
 repositories {
@@ -17,25 +16,13 @@ android {
         versionName '1.12'
     }
 
-    sourceSets {
-        main {
-            manifest.srcFile 'src/main/AndroidManifest.xml'
-            java {
-                srcDir 'src/main/java'
-            }
-            resources {
-                srcDir 'src/main/res'
-            }
-        }
-    }
-
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 }
 
 dependencies {
-    apt project(':processor')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 apply from: '../maven_push.gradle'

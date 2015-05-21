@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.gemini.httpengine.annotation.InjectFactory;
 import org.gemini.httpengine.library.GMHttpParameters;
 import org.gemini.httpengine.library.GMHttpRequest;
 import org.gemini.httpengine.library.GMHttpResponse;
@@ -37,7 +38,8 @@ public class MainActivity extends Activity implements View.OnClickListener,OnRes
     @Override
     public void onClick(View v) {
         if(v == mTestButton) {
-            mLoginAPI.image(this);
+            AwesomeAPI api = InjectFactory.inject(AwesomeAPI.class);
+            api.doSomethingAwesome(this, "papatuo", "nickname");
         }
     }
 
