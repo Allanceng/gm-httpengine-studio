@@ -7,6 +7,11 @@ A Simple Http Engine
 
 ## How to use
 
+### Gradle:
+```gradle
+  compile 'org.geminiwen.android.httpengine:library:2.0'
+```
+
 Request:
 ```java
 GMHttpParameters httpParameters = new GMHttpParameters();
