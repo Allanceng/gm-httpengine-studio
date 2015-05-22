@@ -3,28 +3,21 @@ package org.gemini.httpengine.examples;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import org.gemini.httpengine.annotation.InjectFactory;
-import org.gemini.httpengine.library.GMHttpParameters;
 import org.gemini.httpengine.library.GMHttpRequest;
 import org.gemini.httpengine.library.GMHttpResponse;
-import org.gemini.httpengine.library.GMHttpService;
 import org.gemini.httpengine.library.OnResponseListener;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 
 public class MainActivity extends Activity implements View.OnClickListener,OnResponseListener{
 
     private Button mTestButton;
-    private LoginAPI mLoginAPI;
+    private OtherAPI mLoginAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +26,14 @@ public class MainActivity extends Activity implements View.OnClickListener,OnRes
 
         mTestButton = (Button)findViewById(R.id.test_btn);
         mTestButton.setOnClickListener(this);
-        mLoginAPI = new LoginAPI();
+        mLoginAPI = new OtherAPI();
     }
 
     @Override
     public void onClick(View v) {
         if(v == mTestButton) {
-            AwesomeAPI api = InjectFactory.inject(AwesomeAPI.class);
-            List<String> test = new ArrayList<>();
-            test.add("nickname");
-            api.doSomethingAwesome(this, "papatuo", test);
+            UserAPI api = InjectFactory.inject(UserAPI.class);
+            api.login(this, "geminiwen", "password");
         }
     }
 

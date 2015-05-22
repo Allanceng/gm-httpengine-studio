@@ -10,10 +10,10 @@ import org.gemini.httpengine.library.OnResponseListener;
 /**
  * Created by geminiwen on 14-3-25.
  */
-public class LoginAPI {
+public class OtherAPI {
     private GMHttpService mService;
 
-    public LoginAPI() {
+    public OtherAPI() {
         mService = GMHttpService.getInstance();
     }
 
