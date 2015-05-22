@@ -135,7 +135,9 @@ public class GMHttpEngine {
 
             responseStream.close();
             response.setRawData(resultData);
-            response.parseCookies(setCookies);
+            if (setCookies != null){
+                response.parseCookies(setCookies);
+            }
 
         } catch (Exception e) {
             LOG.w(TAG, e.getClass().getSimpleName(), e);
