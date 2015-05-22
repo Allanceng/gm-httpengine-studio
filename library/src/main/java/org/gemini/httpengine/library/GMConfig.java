@@ -9,7 +9,7 @@ public class GMConfig {
      */
     public static boolean enableRESTfulSupport = true;
 
-    public static final String VERSION_NAME = "1.12";
+    public static final String VERSION_NAME = "2.0";
 
     public static int TIMEOUT = 30;
 
