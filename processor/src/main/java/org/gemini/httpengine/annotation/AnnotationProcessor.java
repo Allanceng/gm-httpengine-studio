@@ -21,6 +21,7 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
@@ -115,14 +116,21 @@ public class AnnotationProcessor extends AbstractProcessor {
             String classPackage = getPackageName(enclosingElement);
             String className = getClassName(enclosingElement, classPackage) + SUFFIX;
 
+            TypeMirror elementType = enclosingElement.asType();
+            boolean isInterface = isInterface(elementType);
+
             injector = new APIClassInjector(classPackage, className, targetType);
             targetClassMap.put(enclosingElement, injector);
         }
         return injector;
     }
 
-    ;
-
+    private boolean isInterface(TypeMirror typeMirror) {
+        if (!(typeMirror instanceof DeclaredType)) {
+            return false;
+        }
+        return ((DeclaredType) typeMirror).asElement().getKind() == ElementKind.INTERFACE;
+    }
 
     @Override
     public SourceVersion getSupportedSourceVersion() {
