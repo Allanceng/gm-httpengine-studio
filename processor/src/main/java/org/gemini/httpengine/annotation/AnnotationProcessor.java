@@ -119,7 +119,7 @@ public class AnnotationProcessor extends AbstractProcessor {
             TypeMirror elementType = enclosingElement.asType();
             boolean isInterface = isInterface(elementType);
 
-            injector = new APIClassInjector(classPackage, className, targetType);
+            injector = new APIClassInjector(classPackage, className, targetType, isInterface);
             targetClassMap.put(enclosingElement, injector);
         }
         return injector;
