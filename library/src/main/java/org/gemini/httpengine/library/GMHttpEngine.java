@@ -127,10 +127,6 @@ public class GMHttpEngine {
             response.setHttpStatusCode(responseCode);
             InputStream responseStream = connection.getInputStream();
             int length = connection.getContentLength();
-            String contentEncoding = connection.getContentEncoding();
-            if (contentEncoding != null && contentEncoding.toLowerCase().equals("gzip")) {
-                responseStream = new GZIPInputStream(responseStream);
-            }
 
             byte[] resultData = readHttpResponseAsByte(responseStream, length, httpRequest);
             Map<String, List<String>> responseHeader = connection.getHeaderFields();
