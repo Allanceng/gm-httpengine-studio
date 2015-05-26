@@ -54,7 +54,8 @@ public class GMHttpEngine {
         try {
             String uri = httpRequest.getUrl();
             URL url = new URL(uri);
-            connection = urlFactory.open(url);
+
+            connection = (HttpURLConnection) urlFactory.open(url);
 
             if (uri.startsWith("https")) {
                 HttpsURLConnection httpsConnection = (HttpsURLConnection) connection;
@@ -111,6 +112,7 @@ public class GMHttpEngine {
 
             connection.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
             connection.addRequestProperty("Connection", "keep-alive");
+            connection.addRequestProperty("User-Agent", "gm-httpengine v" + GMConfig.VERSION_NAME);
 
             connection.setDoInput(true);
             connection.setConnectTimeout(connectionTimeout);
@@ -127,6 +129,10 @@ public class GMHttpEngine {
             response.setHttpStatusCode(responseCode);
             InputStream responseStream = connection.getInputStream();
             int length = connection.getContentLength();
+            String contentEncoding = connection.getContentEncoding();
+            if (contentEncoding != null && contentEncoding.toLowerCase().equals("gzip")) {
+                responseStream = new GZIPInputStream(responseStream);
+            }
 
             byte[] resultData = readHttpResponseAsByte(responseStream, length, httpRequest);
             Map<String, List<String>> responseHeader = connection.getHeaderFields();

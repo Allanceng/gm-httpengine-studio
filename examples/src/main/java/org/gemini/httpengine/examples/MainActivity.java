@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import org.gemini.httpengine.annotation.InjectFactory;
 import org.gemini.httpengine.library.GMHttpRequest;
@@ -42,7 +43,7 @@ public class MainActivity extends Activity implements View.OnClickListener,OnRes
         byte[] result = null;
         try {
             result = response.getRawData();
-            Map<String, String> cookies = response.getCookies();
+            Log.d("result", new String(result));
         } catch (Exception e) {
             Log.e("error", "wtf?", e);
         }

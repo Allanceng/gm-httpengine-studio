@@ -13,7 +13,7 @@ public abstract class UserAPI {
         String TASK_GET_LOGIN = "login";
     }
 
-    @Path("http://www.baidu.com")
+    @Path("http://api.segmentfault.com/question/newest?page=1")
     @TaskId(TASKID.TASK_GET_LOGIN)
     @GET
     public abstract void login(OnResponseListener l,
