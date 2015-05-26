@@ -8,7 +8,7 @@ import org.gemini.httpengine.library.OnResponseListener;
 /**
  * Created by geminiwen on 15/5/21.
  */
-public interface UserAPI {
+public abstract class UserAPI {
     interface TASKID {
         String TASK_GET_LOGIN = "login";
     }
@@ -16,7 +16,7 @@ public interface UserAPI {
     @Path("http://www.baidu.com")
     @TaskId(TASKID.TASK_GET_LOGIN)
     @GET
-    void login(OnResponseListener l,
+    public abstract void login(OnResponseListener l,
                String username,
                String password);
 }
