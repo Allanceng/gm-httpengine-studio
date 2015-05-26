@@ -1,6 +1,9 @@
 package org.gemini.httpengine.library;
 
 
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.OkUrlFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +30,7 @@ public class GMHttpEngine {
     private int connectionTimeout;
     private int readTimeout;
     private static final String SET_COOKIE_SEPARATOR = "; ";
+    private OkUrlFactory urlFactory = new OkUrlFactory(new OkHttpClient());
 
     public GMHttpEngine() {
         HttpURLConnection.setFollowRedirects(true);
@@ -50,7 +54,7 @@ public class GMHttpEngine {
         try {
             String uri = httpRequest.getUrl();
             URL url = new URL(uri);
-            connection = (HttpURLConnection) url.openConnection();
+            connection = urlFactory.open(url);
 
             if (uri.startsWith("https")) {
                 HttpsURLConnection httpsConnection = (HttpsURLConnection) connection;
@@ -107,7 +111,6 @@ public class GMHttpEngine {
 
             connection.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
             connection.addRequestProperty("Connection", "keep-alive");
-            connection.addRequestProperty("User-Agent", "gm-httpengine v" + GMConfig.VERSION_NAME);
 
             connection.setDoInput(true);
             connection.setConnectTimeout(connectionTimeout);
