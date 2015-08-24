@@ -44,9 +44,11 @@ public class GMHttpRequest {
         }
         String url = this.url;
 
-        byte[] data = formUrlEncodedParser.parse(httpParameters);
-        if (null != data) {
-            url += "?" + new String(data);
+        if (this.method.equals(HttpMethod.HTTP_GET)) {
+            byte[] data = formUrlEncodedParser.parse(httpParameters);
+            if (null != data) {
+                url += "?" + new String(data);
+            }
         }
         return url;
     }
