@@ -29,8 +29,13 @@ public class GMHttpEngine {
 
     private int connectionTimeout;
     private int readTimeout;
+
     private static final String SET_COOKIE_SEPARATOR = "; ";
+    private static final int READ_BYTE_COUNT = 4096;
+    private static final int WRITE_BYTE_COUNT = 2048;
+
     private OkUrlFactory urlFactory = new OkUrlFactory(new OkHttpClient());
+
 
     public GMHttpEngine() {
         HttpURLConnection.setFollowRedirects(true);
@@ -55,7 +60,7 @@ public class GMHttpEngine {
             String uri = httpRequest.getUrl();
             URL url = new URL(uri);
 
-            connection = (HttpURLConnection) urlFactory.open(url);
+            connection = urlFactory.open(url);
 
             if (uri.startsWith("https")) {
                 HttpsURLConnection httpsConnection = (HttpsURLConnection) connection;
@@ -120,7 +125,18 @@ public class GMHttpEngine {
             if (httpEntity != null) {
                 connection.setDoOutput(true);
                 OutputStream httpBodyStream = connection.getOutputStream();
-                httpBodyStream.write(httpEntity);
+                int size = httpEntity.length;
+                int hasWrite = 0;
+
+                while (hasWrite < size) {
+                    httpBodyStream.write(httpEntity, hasWrite, WRITE_BYTE_COUNT);
+                    hasWrite += WRITE_BYTE_COUNT;
+                    OnProgressUpdateListener l = httpRequest.getOnProgressUpdateListener();
+                    if (l != null) {
+                        l.onUploadProgreessUpdate(100 * hasWrite / size, hasWrite);
+                    }
+                }
+
                 httpBodyStream.flush();
                 httpBodyStream.close();
             }
@@ -128,7 +144,7 @@ public class GMHttpEngine {
             int responseCode = connection.getResponseCode();
             response.setHttpStatusCode(responseCode);
             InputStream responseStream = connection.getInputStream();
-            int length = connection.getContentLength();
+            long length = connection.getContentLength();
             String contentEncoding = connection.getContentEncoding();
             if (contentEncoding != null && contentEncoding.toLowerCase().equals("gzip")) {
                 responseStream = new GZIPInputStream(responseStream);
@@ -156,19 +172,19 @@ public class GMHttpEngine {
      * receive buffer;
      */
     private ByteArrayOutputStream bufferStream = new ByteArrayOutputStream();
-    private byte[] buffer = new byte[4096];
+    private byte[] buffer = new byte[READ_BYTE_COUNT];
 
-    private byte[] readHttpResponseAsByte(InputStream is, int length, GMHttpRequest request) throws IOException{
+    private byte[] readHttpResponseAsByte(InputStream is, long length, GMHttpRequest request) throws IOException{
         try {
-            int nRead;
-            int nHasRead = 0;
-            OnProgressUpdateListener l;
-            while ((nRead = is.read(buffer, 0, buffer.length)) != -1) {
-                bufferStream.write(buffer, 0, nRead);
-                nHasRead += nRead;
-                l = request.getOnProgressUpdateListener();
+            int perRead;
+            long nHasRead = 0;
+
+            while ((perRead = is.read(buffer, 0, buffer.length)) != -1) {
+                bufferStream.write(buffer, 0, perRead);
+                nHasRead += perRead;
+                OnProgressUpdateListener l = request.getOnProgressUpdateListener();
                 if (null != l) {
-                    l.onUpdate(100 * nHasRead / length, String.valueOf(nHasRead));
+                    l.onDownloadProgressUpdate((int)(100 * nHasRead / length), nHasRead);
                 }
             }
             bufferStream.flush();

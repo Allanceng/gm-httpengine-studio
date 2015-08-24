@@ -29,7 +29,7 @@ public class GMHttpRequest {
     private Map<String, String> headers;
     private Map<String, String> cookies;
     private WeakReference<OnResponseListener> onResponseListener = new WeakReference<OnResponseListener>(null);
-    private OnProgressUpdateListener onProgressUpdateListener;
+    private WeakReference<OnProgressUpdateListener> onProgressUpdateListener;
     private HttpRequestParser requestParser;
 
     private FormUrlEncodedParser formUrlEncodedParser = new FormUrlEncodedParser();
@@ -120,11 +120,11 @@ public class GMHttpRequest {
     }
 
     public OnProgressUpdateListener getOnProgressUpdateListener() {
-        return onProgressUpdateListener;
+        return onProgressUpdateListener == null? null : onProgressUpdateListener.get();
     }
 
     public void setOnProgressUpdateListener(OnProgressUpdateListener onProgressUpdateListener) {
-        this.onProgressUpdateListener = onProgressUpdateListener;
+        this.onProgressUpdateListener = new WeakReference<>(onProgressUpdateListener);
     }
 
     public HttpRequestParser getRequestParser() {

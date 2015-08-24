@@ -9,5 +9,7 @@ public interface OnProgressUpdateListener {
 	 * @param value
 	 *            the value string
 	 */
-	public void onUpdate(int progress, String value);
+	void onDownloadProgressUpdate(int progress, long value);
+
+	void onUploadProgreessUpdate(int progress, long value);
 }
