@@ -129,8 +129,12 @@ public class GMHttpEngine {
                 int hasWrite = 0;
 
                 while (hasWrite < size) {
-                    httpBodyStream.write(httpEntity, hasWrite, WRITE_BYTE_COUNT);
-                    hasWrite += WRITE_BYTE_COUNT;
+                    int perWrite = WRITE_BYTE_COUNT;
+                    if (hasWrite + WRITE_BYTE_COUNT > size) {
+                        perWrite = size - hasWrite;
+                    }
+                    httpBodyStream.write(httpEntity, hasWrite, perWrite);
+                    hasWrite += perWrite;
                     OnProgressUpdateListener l = httpRequest.getOnProgressUpdateListener();
                     if (l != null) {
                         l.onUploadProgreessUpdate(100 * hasWrite / size, hasWrite);
